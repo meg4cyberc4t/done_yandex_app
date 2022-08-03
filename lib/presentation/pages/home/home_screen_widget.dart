@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:done_yandex_app/di/global_dependency.dart';
 import 'package:done_yandex_app/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:done_yandex_app/presentation/pages/home/widgets/home_app_bar.dart';
@@ -19,10 +21,24 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     context.global.tasksBloc.add(const StartedEvent());
   }
 
-  void addNewTask() {}
+  void addNewTask() {
+    context.global.tasksBloc.add(
+      const AddTaskEvent(
+        text: "Teeext",
+      ),
+    );
+  }
 
   void changeVisibility() {
     context.global.tasksBloc.add(const ChangeVisibilityEvent());
+  }
+
+  void deleteTask(String id) {
+    context.global.tasksBloc.add(DeleteTaskEvent(id: id));
+  }
+
+  void doneTask(String id, bool oldValue) {
+    context.global.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
   }
 
   @override
@@ -34,30 +50,74 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       ),
       body: BlocBuilder<TasksBloc, TasksState>(
         bloc: context.global.tasksBloc,
-        builder: (BuildContext context, TasksState state) => CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              delegate: HomeAppBarDelegate(
-                changeVisibility: changeVisibility,
-                doneTasksCount: 2,
-                visibility:
-                    (state is LoadedTasksState) ? state.visibility : true,
+        builder: (BuildContext context, TasksState state) {
+          debugPrint('TasksBlocBuild');
+          return CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                delegate: HomeAppBarDelegate(
+                  changeVisibility: changeVisibility,
+                  doneTasksCount: (state is LoadedTasksState)
+                      ? state.tasks.where((element) => element.done).length
+                      : 0,
+                  visibility:
+                      (state is LoadedTasksState) ? state.visibility : true,
+                ),
+                floating: true,
+                pinned: true,
               ),
-              floating: true,
-              pinned: true,
-            ),
-            if (state is LoadedTasksState)
               SliverPadding(
-                padding: const EdgeInsets.all(8),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: state.tasks.length,
-                    (context, index) => TaskListTile(task: state.tasks[index]),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                      color: Theme.of(context).listTileTheme.tileColor,
+                    ),
                   ),
                 ),
               ),
-          ],
-        ),
+              if (state is LoadedTasksState)
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: state.tasks.length,
+                      (context, index) => TaskListTile(
+                        visibilityDone: state.visibility,
+                        task: state.tasks[index],
+                        onDelete: () => deleteTask(state.tasks[index].id),
+                        onDone: () => doneTask(
+                          state.tasks[index].id,
+                          state.tasks[index].done,
+                        ),
+                        onPressed: () => print('onPressed'),
+                      ),
+                    ),
+                  ),
+                ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                      color: Theme.of(context).listTileTheme.tileColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

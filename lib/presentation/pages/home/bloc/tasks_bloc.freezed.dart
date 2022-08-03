@@ -20,9 +20,19 @@ mixin _$TasksEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,9 +40,19 @@ mixin _$TasksEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,9 +60,19 @@ mixin _$TasksEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) =>
@@ -138,9 +168,19 @@ class _$StartedEvent implements StartedEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
     return started();
@@ -151,9 +191,19 @@ class _$StartedEvent implements StartedEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
     return started?.call();
@@ -164,9 +214,19 @@ class _$StartedEvent implements StartedEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {
@@ -266,9 +326,19 @@ class _$LoadingEvent implements LoadingEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
     return loading();
@@ -279,9 +349,19 @@ class _$LoadingEvent implements LoadingEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
     return loading?.call();
@@ -292,9 +372,19 @@ class _$LoadingEvent implements LoadingEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {
@@ -357,6 +447,8 @@ abstract class _$$AddTaskEventCopyWith<$Res> {
   factory _$$AddTaskEventCopyWith(
           _$AddTaskEvent value, $Res Function(_$AddTaskEvent) then) =
       __$$AddTaskEventCopyWithImpl<$Res>;
+  $Res call(
+      {String text, TaskImportance importance, DateTime? deadline, bool done});
 }
 
 /// @nodoc
@@ -368,38 +460,106 @@ class __$$AddTaskEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
   @override
   _$AddTaskEvent get _value => super._value as _$AddTaskEvent;
+
+  @override
+  $Res call({
+    Object? text = freezed,
+    Object? importance = freezed,
+    Object? deadline = freezed,
+    Object? done = freezed,
+  }) {
+    return _then(_$AddTaskEvent(
+      text: text == freezed
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      importance: importance == freezed
+          ? _value.importance
+          : importance // ignore: cast_nullable_to_non_nullable
+              as TaskImportance,
+      deadline: deadline == freezed
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      done: done == freezed
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$AddTaskEvent implements AddTaskEvent {
-  const _$AddTaskEvent();
+  const _$AddTaskEvent(
+      {required this.text,
+      this.importance = TaskImportance.basic,
+      this.deadline,
+      this.done = false});
+
+  @override
+  final String text;
+  @override
+  @JsonKey()
+  final TaskImportance importance;
+  @override
+  final DateTime? deadline;
+  @override
+  @JsonKey()
+  final bool done;
 
   @override
   String toString() {
-    return 'TasksEvent.add()';
+    return 'TasksEvent.add(text: $text, importance: $importance, deadline: $deadline, done: $done)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AddTaskEvent);
+        (other.runtimeType == runtimeType &&
+            other is _$AddTaskEvent &&
+            const DeepCollectionEquality().equals(other.text, text) &&
+            const DeepCollectionEquality()
+                .equals(other.importance, importance) &&
+            const DeepCollectionEquality().equals(other.deadline, deadline) &&
+            const DeepCollectionEquality().equals(other.done, done));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(text),
+      const DeepCollectionEquality().hash(importance),
+      const DeepCollectionEquality().hash(deadline),
+      const DeepCollectionEquality().hash(done));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$AddTaskEventCopyWith<_$AddTaskEvent> get copyWith =>
+      __$$AddTaskEventCopyWithImpl<_$AddTaskEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
-    return add();
+    return add(text, importance, deadline, done);
   }
 
   @override
@@ -407,12 +567,22 @@ class _$AddTaskEvent implements AddTaskEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
-    return add?.call();
+    return add?.call(text, importance, deadline, done);
   }
 
   @override
@@ -420,14 +590,24 @@ class _$AddTaskEvent implements AddTaskEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {
     if (add != null) {
-      return add();
+      return add(text, importance, deadline, done);
     }
     return orElse();
   }
@@ -477,7 +657,19 @@ class _$AddTaskEvent implements AddTaskEvent {
 }
 
 abstract class AddTaskEvent implements TasksEvent {
-  const factory AddTaskEvent() = _$AddTaskEvent;
+  const factory AddTaskEvent(
+      {required final String text,
+      final TaskImportance importance,
+      final DateTime? deadline,
+      final bool done}) = _$AddTaskEvent;
+
+  String get text;
+  TaskImportance get importance;
+  DateTime? get deadline;
+  bool get done;
+  @JsonKey(ignore: true)
+  _$$AddTaskEventCopyWith<_$AddTaskEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -485,6 +677,14 @@ abstract class _$$EditTaskEventCopyWith<$Res> {
   factory _$$EditTaskEventCopyWith(
           _$EditTaskEvent value, $Res Function(_$EditTaskEvent) then) =
       __$$EditTaskEventCopyWithImpl<$Res>;
+  $Res call(
+      {String id,
+      String? text,
+      TaskImportance? importance,
+      DateTime? deadline,
+      bool? done,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -496,38 +696,134 @@ class __$$EditTaskEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
   @override
   _$EditTaskEvent get _value => super._value as _$EditTaskEvent;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? text = freezed,
+    Object? importance = freezed,
+    Object? deadline = freezed,
+    Object? done = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_$EditTaskEvent(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: text == freezed
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      importance: importance == freezed
+          ? _value.importance
+          : importance // ignore: cast_nullable_to_non_nullable
+              as TaskImportance?,
+      deadline: deadline == freezed
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      done: done == freezed
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$EditTaskEvent implements EditTaskEvent {
-  const _$EditTaskEvent();
+  const _$EditTaskEvent(
+      {required this.id,
+      this.text,
+      this.importance,
+      this.deadline,
+      this.done,
+      this.createdAt,
+      this.updatedAt});
+
+  @override
+  final String id;
+  @override
+  final String? text;
+  @override
+  final TaskImportance? importance;
+  @override
+  final DateTime? deadline;
+  @override
+  final bool? done;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'TasksEvent.edit()';
+    return 'TasksEvent.edit(id: $id, text: $text, importance: $importance, deadline: $deadline, done: $done, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EditTaskEvent);
+        (other.runtimeType == runtimeType &&
+            other is _$EditTaskEvent &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.text, text) &&
+            const DeepCollectionEquality()
+                .equals(other.importance, importance) &&
+            const DeepCollectionEquality().equals(other.deadline, deadline) &&
+            const DeepCollectionEquality().equals(other.done, done) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            const DeepCollectionEquality().equals(other.updatedAt, updatedAt));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(text),
+      const DeepCollectionEquality().hash(importance),
+      const DeepCollectionEquality().hash(deadline),
+      const DeepCollectionEquality().hash(done),
+      const DeepCollectionEquality().hash(createdAt),
+      const DeepCollectionEquality().hash(updatedAt));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$EditTaskEventCopyWith<_$EditTaskEvent> get copyWith =>
+      __$$EditTaskEventCopyWithImpl<_$EditTaskEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
-    return edit();
+    return edit(id, text, importance, deadline, done, createdAt, updatedAt);
   }
 
   @override
@@ -535,12 +831,23 @@ class _$EditTaskEvent implements EditTaskEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
-    return edit?.call();
+    return edit?.call(
+        id, text, importance, deadline, done, createdAt, updatedAt);
   }
 
   @override
@@ -548,14 +855,24 @@ class _$EditTaskEvent implements EditTaskEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {
     if (edit != null) {
-      return edit();
+      return edit(id, text, importance, deadline, done, createdAt, updatedAt);
     }
     return orElse();
   }
@@ -605,7 +922,25 @@ class _$EditTaskEvent implements EditTaskEvent {
 }
 
 abstract class EditTaskEvent implements TasksEvent {
-  const factory EditTaskEvent() = _$EditTaskEvent;
+  const factory EditTaskEvent(
+      {required final String id,
+      final String? text,
+      final TaskImportance? importance,
+      final DateTime? deadline,
+      final bool? done,
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$EditTaskEvent;
+
+  String get id;
+  String? get text;
+  TaskImportance? get importance;
+  DateTime? get deadline;
+  bool? get done;
+  DateTime? get createdAt;
+  DateTime? get updatedAt;
+  @JsonKey(ignore: true)
+  _$$EditTaskEventCopyWith<_$EditTaskEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -613,6 +948,7 @@ abstract class _$$DeleteTaskEventCopyWith<$Res> {
   factory _$$DeleteTaskEventCopyWith(
           _$DeleteTaskEvent value, $Res Function(_$DeleteTaskEvent) then) =
       __$$DeleteTaskEventCopyWithImpl<$Res>;
+  $Res call({String id});
 }
 
 /// @nodoc
@@ -625,38 +961,71 @@ class __$$DeleteTaskEventCopyWithImpl<$Res>
 
   @override
   _$DeleteTaskEvent get _value => super._value as _$DeleteTaskEvent;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+  }) {
+    return _then(_$DeleteTaskEvent(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$DeleteTaskEvent implements DeleteTaskEvent {
-  const _$DeleteTaskEvent();
+  const _$DeleteTaskEvent({required this.id});
+
+  @override
+  final String id;
 
   @override
   String toString() {
-    return 'TasksEvent.delete()';
+    return 'TasksEvent.delete(id: $id)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DeleteTaskEvent);
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteTaskEvent &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(id));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$DeleteTaskEventCopyWith<_$DeleteTaskEvent> get copyWith =>
+      __$$DeleteTaskEventCopyWithImpl<_$DeleteTaskEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
-    return delete();
+    return delete(id);
   }
 
   @override
@@ -664,12 +1033,22 @@ class _$DeleteTaskEvent implements DeleteTaskEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
-    return delete?.call();
+    return delete?.call(id);
   }
 
   @override
@@ -677,14 +1056,24 @@ class _$DeleteTaskEvent implements DeleteTaskEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {
     if (delete != null) {
-      return delete();
+      return delete(id);
     }
     return orElse();
   }
@@ -734,7 +1123,12 @@ class _$DeleteTaskEvent implements DeleteTaskEvent {
 }
 
 abstract class DeleteTaskEvent implements TasksEvent {
-  const factory DeleteTaskEvent() = _$DeleteTaskEvent;
+  const factory DeleteTaskEvent({required final String id}) = _$DeleteTaskEvent;
+
+  String get id;
+  @JsonKey(ignore: true)
+  _$$DeleteTaskEventCopyWith<_$DeleteTaskEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -780,9 +1174,19 @@ class _$ChangeVisibilityEvent implements ChangeVisibilityEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() loading,
-    required TResult Function() add,
-    required TResult Function() edit,
-    required TResult Function() delete,
+    required TResult Function(String text, TaskImportance importance,
+            DateTime? deadline, bool done)
+        add,
+    required TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)
+        edit,
+    required TResult Function(String id) delete,
     required TResult Function() changeVisibility,
   }) {
     return changeVisibility();
@@ -793,9 +1197,19 @@ class _$ChangeVisibilityEvent implements ChangeVisibilityEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
   }) {
     return changeVisibility?.call();
@@ -806,9 +1220,19 @@ class _$ChangeVisibilityEvent implements ChangeVisibilityEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? loading,
-    TResult Function()? add,
-    TResult Function()? edit,
-    TResult Function()? delete,
+    TResult Function(String text, TaskImportance importance, DateTime? deadline,
+            bool done)?
+        add,
+    TResult Function(
+            String id,
+            String? text,
+            TaskImportance? importance,
+            DateTime? deadline,
+            bool? done,
+            DateTime? createdAt,
+            DateTime? updatedAt)?
+        edit,
+    TResult Function(String id)? delete,
     TResult Function()? changeVisibility,
     required TResult orElse(),
   }) {

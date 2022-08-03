@@ -1,7 +1,14 @@
 import 'package:done_yandex_app/presentation/theme/figma_app_theme.dart';
 import 'package:flutter/material.dart';
 
+extension FigmaThemeContextExtension on BuildContext {
+  FigmaAppTheme get figma => AppTheme.figmaOf(this);
+}
+
 class AppTheme {
+  static FigmaAppTheme figmaOf(BuildContext context) => lightFigma;
+  // Theme.of(context).brightness == Brightness.light
+
   static FigmaAppTheme get lightFigma => const FigmaAppTheme(
         backElevated: Color(0xFFFFFFFF),
         backPrimary: Color(0xFFF7F6F2),
@@ -46,7 +53,7 @@ class AppTheme {
           fontSize: 16,
           height: 20 / 16,
           fontWeight: FontWeight.w400,
-          color: figma.labelSecondary,
+          color: figma.labelPrimary,
         ),
         // Subhead
         subtitle1: const TextStyle(
@@ -60,6 +67,7 @@ class AppTheme {
         textTheme: _textTheme(figma),
         primaryColor: figma.blue,
         dividerColor: lightFigma.separator,
+        secondaryHeaderColor: figma.labelSecondary,
         errorColor: figma.red,
         scaffoldBackgroundColor: figma.backPrimary,
         listTileTheme: ListTileThemeData(

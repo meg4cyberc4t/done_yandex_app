@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:done_yandex_app/data/models/app_responses.dart';
 import 'package:done_yandex_app/data/sources/tasks_local_ds.dart';
 import 'package:done_yandex_app/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/data/sources/visibility_local_ds.dart';
@@ -33,6 +31,15 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
       serverDs,
       localDs,
       visibilityDs,
+    );
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 400) {
+            tasksBloc.add(const LoadingEvent());
+          }
+        },
+      ),
     );
   }
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:done_yandex_app/data/models/app_responses.dart';
+import 'package:done_yandex_app/data/models/task_model.dart';
 import 'package:done_yandex_app/data/sources/tasks_local_ds_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,36 +17,49 @@ class TasksLocalDataSource extends ITasksLocalDataSource {
 
   String get listKey => 'list';
   String taskKey(String id) => 'task_$id';
+  String get lastRevisionKey => 'last_revision_key';
 
   @override
-  Future<ListTaskAppResponse?> getList() {
+  int getRevision() => tasksData.get(lastRevisionKey, defaultValue: 0);
+
+  @override
+  Future<void> saveRevision(int revision) =>
+      tasksData.put(lastRevisionKey, revision);
+
+  @override
+  Future<List<TaskModel>> getList() {
     final String? data = tasksData.get(listKey);
-    if (data == null) return Future.value(null);
-    ListTaskAppResponse decode(String raw) =>
-        ListTaskAppResponse.fromJson(jsonDecode(raw));
+    if (data == null) return Future.value([]);
+    List<TaskModel> decode(String raw) {
+      List rawJ = jsonDecode(raw);
+      return rawJ.map((e) => TaskModel.fromJson(e)).toList();
+    }
+
     if (data.length > 3000) {
-      return compute<String, ListTaskAppResponse>(decode, data);
+      return compute<String, List<TaskModel>>(decode, data);
     }
     return Future.value(decode(data));
   }
 
   @override
-  Future<void> saveList(ListTaskAppResponse request) =>
-      tasksData.put(listKey, jsonEncode(request));
+  Future<void> saveList(List<TaskModel> list) =>
+      tasksData.put(listKey, jsonEncode(list));
 
   @override
-  Future<TaskAppResponse?> getTask(String id) {
+  Future<TaskModel?> getTask(String id) {
     final String? data = tasksData.get(taskKey(id));
     if (data == null) return Future.value(null);
-    TaskAppResponse decode(String raw) =>
-        TaskAppResponse.fromJson(jsonDecode(raw));
+    TaskModel decode(String raw) => TaskModel.fromJson(jsonDecode(raw));
     if (data.length > 3000) {
-      return compute<String, TaskAppResponse>(decode, data);
+      return compute<String, TaskModel>(decode, data);
     }
     return Future.value(decode(data));
   }
 
   @override
-  Future<void> saveTask(TaskAppResponse request) =>
-      tasksData.put(listKey, request.toJson().toString());
+  Future<void> saveTask(TaskModel request) =>
+      tasksData.put(taskKey(request.id), request.toJson().toString());
+
+  @override
+  Future<void> deleteTask(String id) => tasksData.delete(taskKey(id));
 }

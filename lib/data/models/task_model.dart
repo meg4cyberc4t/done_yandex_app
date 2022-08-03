@@ -14,10 +14,11 @@ class TaskModel with _$TaskModel {
     required String id,
     required String text,
     required TaskImportance importance,
-    required int? deadline,
+    @TimestampOrNullConverter() required DateTime? deadline,
     required bool done,
     @TimestampConverter() required DateTime createdAt,
-    @TimestampOrNullConverter() required DateTime? updatedAt,
+    @TimestampConverter() required DateTime changedAt,
+    required String lastUpdatedBy,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>

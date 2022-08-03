@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:done_yandex_app/data/models/app_requests.dart';
 import 'package:done_yandex_app/data/models/app_responses.dart';
 
@@ -19,8 +18,12 @@ abstract class ITasksRemoteDataSource {
 
   Future<TaskAppResponse> editTask({
     required String id,
+    required int lastRevision,
     required TaskAppRequest task,
   });
 
-  Future<TaskAppResponse> deleteTask(String id);
+  Future<TaskAppResponse> deleteTask({
+    required final String id,
+    required int lastRevision,
+  });
 }

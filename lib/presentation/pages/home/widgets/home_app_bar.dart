@@ -73,8 +73,12 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
                         opacity: progress < 0.2 ? 1 : 0,
                         child: Text(
                           'Выполнено — $doneTasksCount',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                color: Theme.of(context).secondaryHeaderColor,
+                              ),
                         ),
                       ),
                     ),

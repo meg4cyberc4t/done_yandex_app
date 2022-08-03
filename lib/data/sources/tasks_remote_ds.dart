@@ -14,7 +14,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
   }) async {
     final res = await dio.post(
       '/list/',
-      data: element,
+      data: element.toJson()..remove('runtimeType'),
       options: Options(
         headers: {"X-Last-Known-Revision": lastRevision.toString()},
       ),
@@ -23,19 +23,31 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
   }
 
   @override
-  Future<TaskAppResponse> deleteTask(String id) async {
-    final res = await dio.delete('/list/$id');
+  Future<TaskAppResponse> deleteTask({
+    required final String id,
+    required int lastRevision,
+  }) async {
+    final res = await dio.delete(
+      '/list/$id',
+      options: Options(
+        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+      ),
+    );
     return TaskAppResponse.fromJson(res.data);
   }
 
   @override
   Future<TaskAppResponse> editTask({
     required String id,
+    required int lastRevision,
     required TaskAppRequest task,
   }) async {
     final res = await dio.put(
       '/list/$id',
-      data: task,
+      data: task.toJson()..remove('runtimeType'),
+      options: Options(
+        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+      ),
     );
     return TaskAppResponse.fromJson(res.data);
   }
@@ -62,7 +74,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
       options: Options(
         headers: {"X-Last-Known-Revision": lastRevision.toString()},
       ),
-      data: request,
+      data: request.toJson()..remove('runtimeType'),
     );
     throw ListTaskAppResponse.fromJson(res.data);
   }
