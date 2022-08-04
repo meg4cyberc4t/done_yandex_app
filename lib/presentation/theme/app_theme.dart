@@ -46,7 +46,7 @@ class AppTheme {
         button: const TextStyle(
           fontSize: 14,
           height: 24 / 14,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
         // Body
         bodyText1: TextStyle(
@@ -54,6 +54,12 @@ class AppTheme {
           height: 20 / 16,
           fontWeight: FontWeight.w400,
           color: figma.labelPrimary,
+        ),
+        // Text Field
+        bodyText2: const TextStyle(
+          fontSize: 16,
+          height: 18 / 16,
+          fontWeight: FontWeight.w400,
         ),
         // Subhead
         subtitle1: const TextStyle(
@@ -72,6 +78,15 @@ class AppTheme {
         scaffoldBackgroundColor: figma.backPrimary,
         listTileTheme: ListTileThemeData(
           tileColor: figma.backSecondary,
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.all(figma.separator),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: figma.backPrimary,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: figma.backSecondary,
         ),
         useMaterial3: false,
       );

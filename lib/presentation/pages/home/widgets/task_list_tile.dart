@@ -1,4 +1,5 @@
 import 'package:done_yandex_app/data/models/task_model.dart';
+import 'package:done_yandex_app/presentation/pages/home/widgets/task_check_box.dart';
 import 'package:done_yandex_app/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -21,6 +22,26 @@ class TaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!visibilityDone && task.done) return const SizedBox();
+    // return Dismissible(
+    //   key: ObjectKey(task.id),
+    //   child: ListTile(
+    //     onTap: onPressed,
+    //     minLeadingWidth: 0,
+    //     leading: TaskCheckBox(
+    //       done: task.done,
+    //       importance: task.importance,
+    //       onChanged: (_) => onDone(),
+    //     ),
+    //     title: Text(
+    //       task.text,
+    //       style: Theme.of(context).textTheme.bodyText1,
+    //     ),
+    //     trailing: Icon(
+    //       Icons.info_outline,
+    //       color: context.figma.labelTertiary,
+    //     ),
+    //   ),
+    // );
     return Slidable(
       key: ValueKey(task.id),
       startActionPane: ActionPane(
@@ -47,7 +68,9 @@ class TaskListTile extends StatelessWidget {
       ),
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
-        dismissible: DismissiblePane(onDismissed: onDelete),
+        dismissible: DismissiblePane(
+          onDismissed: onDelete,
+        ),
         extentRatio: 0.3,
         children: [
           SlidableAction(
@@ -60,13 +83,19 @@ class TaskListTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onPressed,
-        leading: Checkbox(
-          onChanged: (_) => onDone,
-          value: task.done,
+        minLeadingWidth: 0,
+        leading: TaskCheckBox(
+          done: task.done,
+          importance: task.importance,
+          onChanged: (_) => onDone(),
         ),
         title: Text(
           task.text,
           style: Theme.of(context).textTheme.bodyText1,
+        ),
+        trailing: Icon(
+          Icons.info_outline,
+          color: context.figma.labelTertiary,
         ),
       ),
     );

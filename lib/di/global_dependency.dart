@@ -5,6 +5,7 @@ import 'package:done_yandex_app/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/data/sources/visibility_local_ds.dart';
 import 'package:done_yandex_app/di/app_async_dependency.dart';
 import 'package:done_yandex_app/enviroment/enviroment.dart';
+import 'package:done_yandex_app/navigation/controller.dart';
 import 'package:done_yandex_app/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +42,8 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
         },
       ),
     );
+
+    navigation = NavigationController.init();
   }
 
   @override
@@ -51,6 +54,9 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
 
   @override
   late final TasksBloc tasksBloc;
+
+  @override
+  late final NavigationController navigation;
 }
 
 extension DepContextExtension on BuildContext {

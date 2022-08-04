@@ -56,12 +56,15 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Мои дела',
-                    style: TextStyle.lerp(
-                      Theme.of(context).textTheme.headline5,
-                      Theme.of(context).textTheme.headline6,
-                      progress,
+                  Hero(
+                    tag: 'main_headline',
+                    child: Text(
+                      'Мои дела',
+                      style: TextStyle.lerp(
+                        Theme.of(context).textTheme.headline5,
+                        Theme.of(context).textTheme.headline6,
+                        progress,
+                      ),
                     ),
                   ),
                   SizedBox(
