@@ -74,31 +74,50 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               if (state is LoadedTasksState)
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  sliver: SliverToBoxAdapter(
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: context.figma.backSecondary,
-                      ),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.tasks.length,
-                        itemBuilder: (context, index) => TaskListTile(
-                          visibilityDone: state.visibility,
-                          task: state.tasks[index],
-                          onDelete: () => deleteTask(state.tasks[index].id),
-                          onDone: () => doneTask(
-                            state.tasks[index].id,
-                            state.tasks[index].done,
-                          ),
-                          onPressed: () => openTask(state.tasks[index]),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: state.tasks.length,
+                      (context, index) => TaskListTile(
+                        visibilityDone: state.visibility,
+                        task: state.tasks[index],
+                        onDelete: () => deleteTask(state.tasks[index].id),
+                        onDone: () => doneTask(
+                          state.tasks[index].id,
+                          state.tasks[index].done,
                         ),
+                        onPressed: () => openTask(state.tasks[index]),
                       ),
                     ),
                   ),
                 ),
+              // if (state is LoadedTasksState)
+              //   SliverPadding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 8),
+              //     sliver: SliverFillRemaining(
+              //       child: Ink(
+              //         decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(8),
+              //           color: context.figma.backSecondary,
+              //         ),
+              //         child: ListView.builder(
+              //           shrinkWrap: true,
+              //           padding: const EdgeInsets.symmetric(vertical: 8),
+              //           physics: const NeverScrollableScrollPhysics(),
+              //           itemCount: state.tasks.length,
+              //           itemBuilder: (context, index) => TaskListTile(
+              //             visibilityDone: state.visibility,
+              //             task: state.tasks[index],
+              //             onDelete: () => deleteTask(state.tasks[index].id),
+              //             onDone: () => doneTask(
+              //               state.tasks[index].id,
+              //               state.tasks[index].done,
+              //             ),
+              //             onPressed: () => openTask(state.tasks[index]),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
             ],
           );
         },
