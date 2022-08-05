@@ -55,12 +55,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       ),
       body: BlocBuilder<TasksBloc, TasksState>(
         bloc: context.global.tasksBloc,
-        buildWhen: (previous, current) {
-          if (!(previous is LoadedTasksState && current is LoadedTasksState)) {
-            return true;
-          }
-          return previous.tasks.length <= current.tasks.length;
-        },
         builder: (BuildContext context, TasksState state) {
           debugPrint('TasksBlocBuild');
           return CustomScrollView(
