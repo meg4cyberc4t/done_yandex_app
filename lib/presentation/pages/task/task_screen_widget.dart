@@ -1,14 +1,25 @@
+import 'package:done_yandex_app/data/models/task_model.dart';
+import 'package:done_yandex_app/presentation/pages/task/widgets/delete_task_button.dart';
 import 'package:done_yandex_app/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TaskScreenWidget extends StatefulWidget {
-  const TaskScreenWidget({Key? key}) : super(key: key);
+  const TaskScreenWidget({required this.task, Key? key}) : super(key: key);
+  final TaskModel? task;
 
   @override
   State<TaskScreenWidget> createState() => _TaskScreenWidgetState();
 }
 
 class _TaskScreenWidgetState extends State<TaskScreenWidget> {
+  @override
+  void initState() {
+    textEditingController = TextEditingController(text: widget.task?.text);
+    super.initState();
+  }
+
+  late final TextEditingController textEditingController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +57,7 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
                 borderRadius: BorderRadius.circular(8),
                 child: TextField(
                   minLines: 4,
+                  controller: textEditingController,
                   maxLines: null,
                   style: Theme.of(context).textTheme.bodyText2,
                   decoration: InputDecoration(
@@ -101,18 +113,19 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
             child: Divider(),
           ),
           SliverToBoxAdapter(
-            child: ListTile(
-              tileColor: Colors.transparent,
-              leading: const Icon(Icons.delete),
-              minLeadingWidth: 0,
-              title: Text(
-                'Удалить',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+            child: DeleteTaskButton(
+              onPressed: () {},
+              enabled: widget.task != null,
             ),
           )
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
   }
 }

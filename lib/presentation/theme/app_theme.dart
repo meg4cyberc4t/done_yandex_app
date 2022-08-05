@@ -76,9 +76,9 @@ class AppTheme {
         secondaryHeaderColor: figma.labelSecondary,
         errorColor: figma.red,
         scaffoldBackgroundColor: figma.backPrimary,
-        listTileTheme: ListTileThemeData(
-          tileColor: figma.backSecondary,
-        ),
+        // listTileTheme: ListTileThemeData(
+        //   tileColor: figma.backSecondary,
+        // ),
         checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.all(figma.separator),
         ),

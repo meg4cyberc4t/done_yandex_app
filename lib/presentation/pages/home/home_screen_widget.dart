@@ -4,6 +4,7 @@ import 'package:done_yandex_app/navigation/routes.dart';
 import 'package:done_yandex_app/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:done_yandex_app/presentation/pages/home/widgets/home_app_bar.dart';
 import 'package:done_yandex_app/presentation/pages/home/widgets/task_list_tile.dart';
+import 'package:done_yandex_app/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,6 +55,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       ),
       body: BlocBuilder<TasksBloc, TasksState>(
         bloc: context.global.tasksBloc,
+        buildWhen: (previous, current) {
+          if (!(previous is LoadedTasksState && current is LoadedTasksState)) {
+            return true;
+          }
+          return previous.tasks.length <= current.tasks.length;
+        },
         builder: (BuildContext context, TasksState state) {
           debugPrint('TasksBlocBuild');
           return CustomScrollView(
@@ -70,76 +77,33 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                 floating: true,
                 pinned: true,
               ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                sliver: SliverToBoxAdapter(
-                  child: Container(
-                    height: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8),
-                      ),
-                      color: Theme.of(context).listTileTheme.tileColor,
-                    ),
-                  ),
-                ),
-              ),
               if (state is LoadedTasksState)
                 SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     sliver: SliverToBoxAdapter(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.tasks.length,
-                        itemBuilder: (context, index) => TaskListTile(
-                          visibilityDone: state.visibility,
-                          task: state.tasks[index],
-                          onDelete: () => deleteTask(state.tasks[index].id),
-                          onDone: () => doneTask(
-                            state.tasks[index].id,
-                            state.tasks[index].done,
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: context.figma.backSecondary,
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.tasks.length,
+                          itemBuilder: (context, index) => TaskListTile(
+                            visibilityDone: state.visibility,
+                            task: state.tasks[index],
+                            onDelete: () => deleteTask(state.tasks[index].id),
+                            onDone: () => doneTask(
+                              state.tasks[index].id,
+                              state.tasks[index].done,
+                            ),
+                            onPressed: () => openTask(state.tasks[index]),
                           ),
-                          onPressed: () => openTask(state.tasks[index]),
                         ),
                       ),
                     )),
-              // if (state is LoadedTasksState)
-              //   SliverPadding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 8),
-              //     sliver: SliverList(
-              //       delegate: SliverChildBuilderDelegate(
-              //         childCount: state.tasks.length,
-              //         (context, index) => TaskListTile(
-              //           visibilityDone: state.visibility,
-              //           task: state.tasks[index],
-              //           onDelete: () => deleteTask(state.tasks[index].id),
-              //           onDone: () => doneTask(
-              //             state.tasks[index].id,
-              //             state.tasks[index].done,
-              //           ),
-              //           onPressed: () => print('onPressed'),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                sliver: SliverToBoxAdapter(
-                  child: Container(
-                    height: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      color: Theme.of(context).listTileTheme.tileColor,
-                    ),
-                  ),
-                ),
-              ),
             ],
           );
         },
