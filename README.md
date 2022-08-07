@@ -25,3 +25,4 @@
 
 
 ### Для установки:
+https://github.com/meg4cyberc4t/done_yandex_app/releases/tag/f1
