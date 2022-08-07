@@ -1,0 +1,15 @@
+{
+    "title": "Сделано",
+    "splashDescription": "Правильный подход в вашему времени!",
+    "myTasks": "Мои дела",
+    "done": "Выполнено",
+    "newTask": "Новое",
+    "taskHintText": "Что надо сделать...",
+    "importance": "Важность",
+    "importanceBasic": "Нет",
+    "importanceLow": "Низкий",
+    "importanceImportant": "Высокий",
+    "deadline": "Сделать до",
+    "delete": "Удалить",
+    "save": "Сохранить"
+}

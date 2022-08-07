@@ -1,0 +1,15 @@
+{
+    "title": "Done",
+    "splashDescription": "The right approach in your time!",
+    "myTasks": "My tasks",
+    "done": "Done",
+    "newTask": "New",
+    "taskHintText": "What needs to be done...",
+    "importance": "Importance",
+    "importanceBasic": "Basic",
+    "importanceLow": "Low",
+    "importanceImportant": "Important",
+    "deadline": "Deadline",
+    "delete": "Delete",
+    "save": "Save"
+}
