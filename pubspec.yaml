@@ -32,7 +32,6 @@ dependencies:
   device_info_plus: ^4.0.1
   flutter_vibrate: ^1.3.0
   logging: ^1.0.2
-  # device_info_plus: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -55,3 +54,11 @@ flutter_gen:
   style: camel-case
   integrations:
     flutter_svg: true 
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  adaptive_icon_background: #000000
+  remove_alpha_ios: true
+  image_path: "assets/mobile-phone.png"
+# flutter pub run flutter_launcher_icons:main

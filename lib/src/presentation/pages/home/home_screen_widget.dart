@@ -6,7 +6,6 @@ import 'package:done_yandex_app/src/presentation/pages/home/widgets/add_task_lis
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/home_app_bar.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/task_list_tile/task_list_tile.dart';
 import 'package:done_yandex_app/src/presentation/theme/app_theme.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
@@ -24,7 +23,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   void initState() {
     super.initState();
     context.global.tasksBloc.add(const StartedEvent());
-    print(context.global.remoteConfig.getBool('red_importance'));
   }
 
   void addNewTask() =>
@@ -57,7 +55,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         bloc: context.global.tasksBloc,
         builder: (BuildContext context, TasksState state) {
           return CustomScrollView(
-            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverPersistentHeader(
                 delegate: HomeAppBarDelegate(
@@ -71,24 +68,24 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                 floating: true,
                 pinned: true,
               ),
-              if (state is LoadedTasksState)
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  sliver: SliverStack(
-                    insetOnOverlap: false,
-                    children: [
-                      SliverPositioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: context.figma.backSecondary,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: SliverStack(
+                  insetOnOverlap: false,
+                  children: [
+                    SliverPositioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: context.figma.backSecondary,
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        sliver: MultiSliver(
-                          children: [
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      sliver: MultiSliver(
+                        children: [
+                          if (state is LoadedTasksState)
                             SliverList(
                               delegate: SliverChildBuilderDelegate(
                                 childCount: state.tasks.length,
@@ -105,15 +102,15 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 ),
                               ),
                             ),
-                            const SliverToBoxAdapter(
-                              child: AddTaskListTile(),
-                            )
-                          ],
-                        ),
+                          const SliverToBoxAdapter(
+                            child: AddTaskListTile(),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(height: MediaQuery.of(context).padding.bottom),
               )
