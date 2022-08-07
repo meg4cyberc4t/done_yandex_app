@@ -1,5 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:done_yandex_app/src/data/enums/task_impotance_enum.dart';
 import 'package:done_yandex_app/src/data/models/app_requests.dart';
 import 'package:done_yandex_app/src/data/models/task_model.dart';
@@ -9,6 +12,7 @@ import 'package:done_yandex_app/src/data/sources/visibility_local_ds.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 part 'tasks_event.dart';
@@ -16,6 +20,19 @@ part 'tasks_state.dart';
 part 'tasks_bloc.freezed.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
+  Future<String> get phoneTitle {
+    final deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      return deviceInfo.androidInfo
+          .then((value) => value.model ?? "Unrecognized model");
+    }
+    if (Platform.isIOS) {
+      return deviceInfo.iosInfo
+          .then((value) => value.name ?? "Unrecognized model");
+    }
+    return Future.value("Unrecognized model");
+  }
+
   Future<void> loadingData(TasksEvent event, Emitter<TasksState> emit) async {
     emit(
       LoadedTasksState(
@@ -24,7 +41,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         revision: localDs.getRevision(),
       ),
     );
-    debugPrint('Downloaded tasks from the cache');
+    Logger.root.info('Downloaded tasks from the cache');
     final remoteRes = await remoteDs.getList();
     await localDs.saveRevision(remoteRes.revision);
     emit(
@@ -34,9 +51,9 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         revision: remoteRes.revision,
       ),
     );
-    debugPrint('Downloaded tasks from the network');
+    Logger.root.info('Downloaded tasks from the network');
     await localDs.saveList(remoteRes.list);
-    debugPrint('Tasks are saved to the phone');
+    Logger.root.info('Tasks are saved to the phone');
   }
 
   void addTask(AddTaskEvent event, Emitter<TasksState> emit) async {
@@ -50,12 +67,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       done: event.done,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),
-      lastUpdatedBy: "123123", // TODO: #!
+      lastUpdatedBy: await phoneTitle,
     );
     await localDs.saveTask(newTask);
     await remoteDs.createTask(
         lastRevision: loadedState.revision,
         element: TaskAppRequest(element: newTask));
+    Logger.root.info('Add task ${newTask.id}');
     await loadingData(event, emit);
   }
 
@@ -68,7 +86,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       done: event.done ?? oldTask.done,
       deadline: event.deadline ?? oldTask.deadline,
       importance: event.importance ?? oldTask.importance,
-      lastUpdatedBy: "123123", // # TODO:!
+      lastUpdatedBy: await phoneTitle,
       text: event.text ?? oldTask.text,
       changedAt: DateTime.now(),
     );
@@ -78,6 +96,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       lastRevision: loadedState.revision,
       task: TaskAppRequest(element: newTask),
     );
+    Logger.root.info("Edit task ${newTask.id}");
     await loadingData(event, emit);
   }
 
@@ -91,6 +110,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       id: task.id,
       lastRevision: loadedState.revision,
     );
+    Logger.root.info("Delete task ${task.id}");
     await loadingData(event, emit);
   }
 
@@ -98,6 +118,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       TasksEvent event, Emitter<TasksState> emit) async {
     final bool newValue = !visibilityDs.getVisibility();
     await visibilityDs.saveVisibility(newValue);
+    Logger.root.info("Change visibility to $newValue");
     if (state is LoadedTasksState) {
       emit((state as LoadedTasksState).copyWith(visibility: newValue));
     }

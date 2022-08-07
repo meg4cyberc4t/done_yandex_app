@@ -79,7 +79,8 @@ class TaskListTileInner extends StatelessWidget {
                   alignment: PlaceholderAlignment.middle,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 6),
-                    child: Assets.icons.importantImportance.svg(),
+                    child: Assets.icons.importantImportance
+                        .svg(color: context.figma.redImportance),
                   ),
                 ),
               TextSpan(

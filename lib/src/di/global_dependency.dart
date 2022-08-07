@@ -16,7 +16,7 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
     env = AppEnviroment();
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://beta.mrdekk.ru/todobackend/',
+        baseUrl: env.url,
         headers: {
           'Accept': "application/json",
           'Content-type': "application/json",
@@ -42,8 +42,14 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
       ),
     );
     navigation = NavigationController.init();
-
     remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(),
+      ),
+    );
+    await remoteConfig.fetchAndActivate();
   }
 
   @override

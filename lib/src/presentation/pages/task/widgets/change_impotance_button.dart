@@ -49,7 +49,7 @@ class ChangeImportanceButton extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.bodyText2?.copyWith(
                                     color: e == TaskImportance.important
-                                        ? context.figma.red
+                                        ? context.figma.redImportance
                                         : context.figma.labelPrimary,
                                   ),
                         ),

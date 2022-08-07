@@ -23,6 +23,7 @@ mixin _$FigmaAppTheme {
   Color get labelTertiary => throw _privateConstructorUsedError;
   Color get labelDisable => throw _privateConstructorUsedError;
   Color get red => throw _privateConstructorUsedError;
+  Color get redImportance => throw _privateConstructorUsedError;
   Color get green => throw _privateConstructorUsedError;
   Color get blue => throw _privateConstructorUsedError;
   Color get gray => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $FigmaAppThemeCopyWith<$Res> {
       Color labelTertiary,
       Color labelDisable,
       Color red,
+      Color redImportance,
       Color green,
       Color blue,
       Color gray,
@@ -78,6 +80,7 @@ class _$FigmaAppThemeCopyWithImpl<$Res>
     Object? labelTertiary = freezed,
     Object? labelDisable = freezed,
     Object? red = freezed,
+    Object? redImportance = freezed,
     Object? green = freezed,
     Object? blue = freezed,
     Object? gray = freezed,
@@ -115,6 +118,10 @@ class _$FigmaAppThemeCopyWithImpl<$Res>
       red: red == freezed
           ? _value.red
           : red // ignore: cast_nullable_to_non_nullable
+              as Color,
+      redImportance: redImportance == freezed
+          ? _value.redImportance
+          : redImportance // ignore: cast_nullable_to_non_nullable
               as Color,
       green: green == freezed
           ? _value.green
@@ -167,6 +174,7 @@ abstract class _$$_FigmaAppThemeCopyWith<$Res>
       Color labelTertiary,
       Color labelDisable,
       Color red,
+      Color redImportance,
       Color green,
       Color blue,
       Color gray,
@@ -197,6 +205,7 @@ class __$$_FigmaAppThemeCopyWithImpl<$Res>
     Object? labelTertiary = freezed,
     Object? labelDisable = freezed,
     Object? red = freezed,
+    Object? redImportance = freezed,
     Object? green = freezed,
     Object? blue = freezed,
     Object? gray = freezed,
@@ -234,6 +243,10 @@ class __$$_FigmaAppThemeCopyWithImpl<$Res>
       red: red == freezed
           ? _value.red
           : red // ignore: cast_nullable_to_non_nullable
+              as Color,
+      redImportance: redImportance == freezed
+          ? _value.redImportance
+          : redImportance // ignore: cast_nullable_to_non_nullable
               as Color,
       green: green == freezed
           ? _value.green
@@ -282,6 +295,7 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
       required this.labelTertiary,
       required this.labelDisable,
       required this.red,
+      required this.redImportance,
       required this.green,
       required this.blue,
       required this.gray,
@@ -306,6 +320,8 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
   @override
   final Color red;
   @override
+  final Color redImportance;
+  @override
   final Color green;
   @override
   final Color blue;
@@ -324,7 +340,7 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
 
   @override
   String toString() {
-    return 'FigmaAppTheme(separator: $separator, overlay: $overlay, labelPrimary: $labelPrimary, labelSecondary: $labelSecondary, labelTertiary: $labelTertiary, labelDisable: $labelDisable, red: $red, green: $green, blue: $blue, gray: $gray, grayLight: $grayLight, white: $white, backPrimary: $backPrimary, backSecondary: $backSecondary, backElevated: $backElevated)';
+    return 'FigmaAppTheme(separator: $separator, overlay: $overlay, labelPrimary: $labelPrimary, labelSecondary: $labelSecondary, labelTertiary: $labelTertiary, labelDisable: $labelDisable, red: $red, redImportance: $redImportance, green: $green, blue: $blue, gray: $gray, grayLight: $grayLight, white: $white, backPrimary: $backPrimary, backSecondary: $backSecondary, backElevated: $backElevated)';
   }
 
   @override
@@ -343,6 +359,8 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
             const DeepCollectionEquality()
                 .equals(other.labelDisable, labelDisable) &&
             const DeepCollectionEquality().equals(other.red, red) &&
+            const DeepCollectionEquality()
+                .equals(other.redImportance, redImportance) &&
             const DeepCollectionEquality().equals(other.green, green) &&
             const DeepCollectionEquality().equals(other.blue, blue) &&
             const DeepCollectionEquality().equals(other.gray, gray) &&
@@ -366,6 +384,7 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
       const DeepCollectionEquality().hash(labelTertiary),
       const DeepCollectionEquality().hash(labelDisable),
       const DeepCollectionEquality().hash(red),
+      const DeepCollectionEquality().hash(redImportance),
       const DeepCollectionEquality().hash(green),
       const DeepCollectionEquality().hash(blue),
       const DeepCollectionEquality().hash(gray),
@@ -390,6 +409,7 @@ abstract class _FigmaAppTheme implements FigmaAppTheme {
       required final Color labelTertiary,
       required final Color labelDisable,
       required final Color red,
+      required final Color redImportance,
       required final Color green,
       required final Color blue,
       required final Color gray,
@@ -413,6 +433,8 @@ abstract class _FigmaAppTheme implements FigmaAppTheme {
   Color get labelDisable;
   @override
   Color get red;
+  @override
+  Color get redImportance;
   @override
   Color get green;
   @override

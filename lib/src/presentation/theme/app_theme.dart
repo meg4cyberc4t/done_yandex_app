@@ -29,6 +29,7 @@ class AppTheme extends InheritedWidget {
         labelTertiary: Color(0x4D000000),
         overlay: Color(0x0F000000),
         red: Color(0xFFFF3B30),
+        redImportance: Color(0xFFFF3B30),
         separator: Color(0x33000000),
         white: Color(0xFFFFFFFF),
       );

@@ -21,7 +21,7 @@ class App extends StatelessWidget {
       child: Builder(
         builder: (BuildContext context) => AppTheme(
           figma: AppTheme.lightFigma.copyWith(
-            red: context.global.remoteConfig.getBool('red_importance')
+            redImportance: context.global.remoteConfig.getBool('red_importance')
                 ? AppTheme.lightFigma.red
                 : const Color(0xFF793cd8),
           ),

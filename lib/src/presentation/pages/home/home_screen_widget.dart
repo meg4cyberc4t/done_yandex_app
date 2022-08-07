@@ -9,6 +9,7 @@ import 'package:done_yandex_app/src/presentation/theme/app_theme.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class HomeScreenWidget extends StatefulWidget {
@@ -23,21 +24,24 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   void initState() {
     super.initState();
     context.global.tasksBloc.add(const StartedEvent());
+    print(context.global.remoteConfig.getBool('red_importance'));
   }
 
-  void addNewTask() {
-    FirebaseCrashlytics.instance.crash();
-    context.global.navigation.navigateTo(NavigationRoutes.task);
-  }
+  void addNewTask() =>
+      context.global.navigation.navigateTo(NavigationRoutes.task);
 
-  void changeVisibility() =>
-      context.global.tasksBloc.add(const ChangeVisibilityEvent());
+  void changeVisibility() {
+    Vibrate.feedback(FeedbackType.success);
+    context.global.tasksBloc.add(const ChangeVisibilityEvent());
+  }
 
   void deleteTask(String id) =>
       context.global.tasksBloc.add(DeleteTaskEvent(id: id));
 
-  void doneTask(String id, bool oldValue) =>
-      context.global.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
+  void doneTask(String id, bool oldValue) {
+    Vibrate.feedback(FeedbackType.selection);
+    context.global.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
+  }
 
   void openTask(TaskModel model) => context.global.navigation
       .navigateTo(NavigationRoutes.task, arguments: model);

@@ -19,7 +19,7 @@ class TaskCheckBox extends StatelessWidget {
     if (done) {
       fillColor = context.figma.green;
     } else if (importance == TaskImportance.important) {
-      fillColor = context.figma.red;
+      fillColor = context.figma.redImportance;
     }
     return Checkbox(
       value: done,

@@ -18,6 +18,7 @@ class FigmaAppTheme with _$FigmaAppTheme {
     required Color labelTertiary,
     required Color labelDisable,
     required Color red,
+    required Color redImportance,
     required Color green,
     required Color blue,
     required Color gray,
