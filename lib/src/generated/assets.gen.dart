@@ -27,6 +27,8 @@ class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const AssetGenImage mobilePhone =
+      AssetGenImage('assets/mobile-phone.png');
 }
 
 class AssetGenImage {
