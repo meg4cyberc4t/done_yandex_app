@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "737244801942",
+    "project_id": "done-6eb63",
+    "storage_bucket": "done-6eb63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737244801942:android:2f39ee580a8b329a050bb7",
+        "android_client_info": {
+          "package_name": "com.example.done_yandex_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737244801942-ldsec828nk89gliaj7c7qjh46rmj5gde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1EF2bWPO7aZQ735bNZ6rdwAL7JeL5itM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737244801942-ldsec828nk89gliaj7c7qjh46rmj5gde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
