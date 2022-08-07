@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:done_yandex_app/firebase_options.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_local_ds.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/src/data/sources/visibility_local_ds.dart';
@@ -8,7 +7,7 @@ import 'package:done_yandex_app/src/di/app_async_dependency.dart';
 import 'package:done_yandex_app/src/enviroment/enviroment.dart';
 import 'package:done_yandex_app/src/navigation/controller.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
 class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
@@ -43,6 +42,8 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
       ),
     );
     navigation = NavigationController.init();
+
+    remoteConfig = FirebaseRemoteConfig.instance;
   }
 
   @override
@@ -56,6 +57,9 @@ class GlobalDependency extends AppAsyncDependency implements IGlobalDependency {
 
   @override
   late final NavigationController navigation;
+
+  @override
+  late final FirebaseRemoteConfig remoteConfig;
 }
 
 extension DepContextExtension on BuildContext {

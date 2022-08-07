@@ -32,7 +32,7 @@ class ChangeImportanceButton extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
-                  ?.copyWith(color: AppTheme.figmaOf(context).labelTertiary),
+                  ?.copyWith(color: context.figma.labelTertiary),
             ),
           ),
           DropdownButtonHideUnderline(

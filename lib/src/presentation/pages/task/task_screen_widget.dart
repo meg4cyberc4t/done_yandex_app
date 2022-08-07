@@ -105,7 +105,7 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
                     contentPadding: const EdgeInsets.all(16),
                     hintText: context.l10n.taskHintText,
                     filled: true,
-                    fillColor: AppTheme.figmaOf(context).backSecondary,
+                    fillColor: context.figma.backSecondary,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,

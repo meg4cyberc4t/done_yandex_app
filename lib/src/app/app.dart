@@ -19,19 +19,26 @@ class App extends StatelessWidget {
       create: GlobalDependency.new,
       loaderBuilder: (context) => const SplashScreenWidget(),
       child: Builder(
-        builder: (context) {
-          return MaterialApp(
-            initialRoute: NavigationRoutes.home,
-            theme: AppTheme.theme(AppTheme.lightFigma),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: kDebugMode,
-            home: const HomeScreenWidget(),
-            onGenerateTitle: (context) => context.l10n.title,
-            navigatorKey: context.global.navigation.key,
-            onGenerateRoute: NavigationRoutes.onGenerateRoute,
-          );
-        },
+        builder: (BuildContext context) => AppTheme(
+          figma: AppTheme.lightFigma.copyWith(
+            red: context.global.remoteConfig.getBool('red_importance')
+                ? AppTheme.lightFigma.red
+                : const Color(0xFF793cd8),
+          ),
+          child: Builder(
+            builder: (context) => MaterialApp(
+              initialRoute: NavigationRoutes.home,
+              theme: AppTheme.theme(context.figma),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: kDebugMode,
+              home: const HomeScreenWidget(),
+              onGenerateTitle: (context) => context.l10n.title,
+              navigatorKey: context.global.navigation.key,
+              onGenerateRoute: NavigationRoutes.onGenerateRoute,
+            ),
+          ),
+        ),
       ),
     );
   }
