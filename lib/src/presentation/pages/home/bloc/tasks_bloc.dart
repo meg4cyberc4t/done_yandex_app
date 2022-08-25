@@ -9,16 +9,17 @@ import 'package:done_yandex_app/src/data/models/task_model.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_local_ds.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/src/data/sources/visibility_local_ds.dart';
-import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
+part 'tasks_bloc.freezed.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
-part 'tasks_bloc.freezed.dart';
 
+@singleton
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   Future<String> get phoneTitle {
     final deviceInfo = DeviceInfoPlugin();
@@ -124,8 +125,11 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     }
   }
 
-  TasksBloc(this.remoteDs, this.localDs, this.visibilityDs)
-      : super(const InitialTasksState()) {
+  TasksBloc(
+    this.remoteDs,
+    this.localDs,
+    this.visibilityDs,
+  ) : super(const InitialTasksState()) {
     on<StartedEvent>(loadingData);
     on<LoadingEvent>(loadingData);
     on<AddTaskEvent>(addTask);

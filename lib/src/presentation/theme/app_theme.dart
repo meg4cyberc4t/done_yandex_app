@@ -3,17 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 extension FigmaThemeContextExtension on BuildContext {
-  FigmaAppTheme get figma =>
-      dependOnInheritedWidgetOfExactType<AppTheme>()!.figma;
+  FigmaAppTheme get figma => AppTheme.figmaOf(this);
 }
 
 class AppTheme extends InheritedWidget {
   const AppTheme({
-    required this.figma,
     required super.child,
+    required this.figma,
     super.key,
   });
+
   final FigmaAppTheme figma;
+
+  static FigmaAppTheme figmaOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<AppTheme>()?.figma ??
+      (Theme.of(context).brightness == Brightness.dark
+          ? lightFigma
+          : lightFigma);
 
   static FigmaAppTheme get lightFigma => const FigmaAppTheme(
         backElevated: Color(0xFFFFFFFF),

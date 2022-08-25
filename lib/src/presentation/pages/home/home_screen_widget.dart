@@ -1,5 +1,5 @@
 import 'package:done_yandex_app/src/data/models/task_model.dart';
-import 'package:done_yandex_app/src/di/global_dependency.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/navigation/routes.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/add_task_list_tile.dart';
@@ -22,27 +22,25 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   @override
   void initState() {
     super.initState();
-    context.global.tasksBloc.add(const StartedEvent());
+    getIt.tasksBloc.add(const StartedEvent());
   }
 
-  void addNewTask() =>
-      context.global.navigation.navigateTo(NavigationRoutes.task);
+  void addNewTask() => getIt.navigation.navigateTo(NavigationRoutes.task);
 
   void changeVisibility() {
     Vibrate.feedback(FeedbackType.success);
-    context.global.tasksBloc.add(const ChangeVisibilityEvent());
+    getIt.tasksBloc.add(const ChangeVisibilityEvent());
   }
 
-  void deleteTask(String id) =>
-      context.global.tasksBloc.add(DeleteTaskEvent(id: id));
+  void deleteTask(String id) => getIt.tasksBloc.add(DeleteTaskEvent(id: id));
 
   void doneTask(String id, bool oldValue) {
     Vibrate.feedback(FeedbackType.selection);
-    context.global.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
+    getIt.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
   }
 
-  void openTask(TaskModel model) => context.global.navigation
-      .navigateTo(NavigationRoutes.task, arguments: model);
+  void openTask(TaskModel model) =>
+      getIt.navigation.navigateTo(NavigationRoutes.task, arguments: model);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +50,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         child: const Icon(Icons.add),
       ),
       body: BlocBuilder<TasksBloc, TasksState>(
-        bloc: context.global.tasksBloc,
+        bloc: getIt.tasksBloc,
         builder: (BuildContext context, TasksState state) {
           return CustomScrollView(
             slivers: [

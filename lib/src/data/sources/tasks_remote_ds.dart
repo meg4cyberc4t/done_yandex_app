@@ -2,9 +2,36 @@ import 'package:dio/dio.dart';
 import 'package:done_yandex_app/src/data/models/app_requests.dart';
 import 'package:done_yandex_app/src/data/models/app_responses.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds_interface.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
+import 'package:done_yandex_app/src/enviroment/enviroment.dart';
+import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TasksRemoteDataSource extends ITasksRemoteDataSource {
-  TasksRemoteDataSource(this.dio);
+  TasksRemoteDataSource._(this.dio);
+  @factoryMethod
+  factory TasksRemoteDataSource.fromEnv(AppEnviroment env) =>
+      TasksRemoteDataSource._(
+        Dio(
+          BaseOptions(
+            baseUrl: env.url,
+            headers: {
+              'Accept': "application/json",
+              'Content-type': "application/json",
+              'Authorization': "Bearer ${env.token}",
+            },
+          ),
+        )..interceptors.add(
+            InterceptorsWrapper(
+              onError: (error, handler) async {
+                if (error.response?.statusCode == 400) {
+                  getIt.tasksBloc.add(const LoadingEvent());
+                }
+              },
+            ),
+          ),
+      );
   final Dio dio;
 
   @override

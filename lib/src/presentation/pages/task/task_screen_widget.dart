@@ -1,6 +1,6 @@
 import 'package:done_yandex_app/src/data/enums/task_impotance_enum.dart';
 import 'package:done_yandex_app/src/data/models/task_model.dart';
-import 'package:done_yandex_app/src/di/global_dependency.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/l10n/localization_extension.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:done_yandex_app/src/presentation/pages/task/widgets/change_impotance_button.dart';
@@ -21,7 +21,7 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
   void _onSaveButton() {
     if (textEditingController.text.trim().isEmpty) return;
     if (widget.task == null) {
-      context.global.tasksBloc.add(
+      getIt.tasksBloc.add(
         AddTaskEvent(
           text: textEditingController.text.trim(),
           deadline: selectedDeadline,
@@ -30,7 +30,7 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
         ),
       );
     } else {
-      context.global.tasksBloc.add(
+      getIt.tasksBloc.add(
         EditTaskEvent(
           id: widget.task!.id,
           text: textEditingController.text.trim(),
@@ -40,13 +40,13 @@ class _TaskScreenWidgetState extends State<TaskScreenWidget> {
         ),
       );
     }
-    context.global.navigation.pop();
+    getIt.navigation.pop();
   }
 
   void _onDeleteButton() {
     if (widget.task == null) return;
-    context.global.tasksBloc.add(DeleteTaskEvent(id: widget.task!.id));
-    context.global.navigation.pop();
+    getIt.tasksBloc.add(DeleteTaskEvent(id: widget.task!.id));
+    getIt.navigation.pop();
   }
 
   @override

@@ -1,9 +1,16 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:injectable/injectable.dart';
 
+// @singleton
+import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
 class NavigationController {
+  @factoryMethod
+  factory NavigationController() => instance;
   NavigationController._();
-  static final NavigationController instance = NavigationController._();
-  factory NavigationController.init() => instance;
+  static NavigationController instance = NavigationController._();
 
   final GlobalKey<NavigatorState> _key = GlobalKey();
 

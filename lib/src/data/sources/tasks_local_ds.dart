@@ -3,8 +3,11 @@ import 'package:done_yandex_app/src/data/models/task_model.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_local_ds_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TasksLocalDataSource extends ITasksLocalDataSource {
+  @factoryMethod
   static Future<TasksLocalDataSource> initAsync() async {
     await Hive.initFlutter();
     final Box tasksData = await Hive.openBox("tasks_local_data_source");
