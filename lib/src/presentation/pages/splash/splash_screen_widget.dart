@@ -37,7 +37,6 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
     if (MediaQuery.maybeOf(context) == null) {
       body = MediaQuery.fromWindow(child: body);
     }
-    // return body;
     return FutureBuilder(
       future: getIt.allReady(),
       builder: (context, snapshot) =>
