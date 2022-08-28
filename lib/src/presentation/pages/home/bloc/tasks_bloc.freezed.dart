@@ -1350,23 +1350,19 @@ mixin _$TasksState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1457,9 +1453,7 @@ class _$InitialTasksState
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) {
     return initial();
   }
@@ -1468,8 +1462,7 @@ class _$InitialTasksState
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) {
     return initial?.call();
   }
@@ -1478,8 +1471,7 @@ class _$InitialTasksState
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1529,7 +1521,7 @@ abstract class _$$LoadedTasksStateCopyWith<$Res> {
   factory _$$LoadedTasksStateCopyWith(
           _$LoadedTasksState value, $Res Function(_$LoadedTasksState) then) =
       __$$LoadedTasksStateCopyWithImpl<$Res>;
-  $Res call({bool visibility, List<TaskModel> tasks, int revision});
+  $Res call({bool visibility, List<TaskModel> tasks});
 }
 
 /// @nodoc
@@ -1547,7 +1539,6 @@ class __$$LoadedTasksStateCopyWithImpl<$Res>
   $Res call({
     Object? visibility = freezed,
     Object? tasks = freezed,
-    Object? revision = freezed,
   }) {
     return _then(_$LoadedTasksState(
       visibility: visibility == freezed
@@ -1558,10 +1549,6 @@ class __$$LoadedTasksStateCopyWithImpl<$Res>
           ? _value._tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<TaskModel>,
-      revision: revision == freezed
-          ? _value.revision
-          : revision // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -1572,9 +1559,7 @@ class _$LoadedTasksState
     with DiagnosticableTreeMixin
     implements LoadedTasksState {
   const _$LoadedTasksState(
-      {required this.visibility,
-      required final List<TaskModel> tasks,
-      required this.revision})
+      {required this.visibility, required final List<TaskModel> tasks})
       : _tasks = tasks;
 
   @override
@@ -1587,11 +1572,8 @@ class _$LoadedTasksState
   }
 
   @override
-  final int revision;
-
-  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'TasksState.loaded(visibility: $visibility, tasks: $tasks, revision: $revision)';
+    return 'TasksState.loaded(visibility: $visibility, tasks: $tasks)';
   }
 
   @override
@@ -1600,8 +1582,7 @@ class _$LoadedTasksState
     properties
       ..add(DiagnosticsProperty('type', 'TasksState.loaded'))
       ..add(DiagnosticsProperty('visibility', visibility))
-      ..add(DiagnosticsProperty('tasks', tasks))
-      ..add(DiagnosticsProperty('revision', revision));
+      ..add(DiagnosticsProperty('tasks', tasks));
   }
 
   @override
@@ -1611,16 +1592,14 @@ class _$LoadedTasksState
             other is _$LoadedTasksState &&
             const DeepCollectionEquality()
                 .equals(other.visibility, visibility) &&
-            const DeepCollectionEquality().equals(other._tasks, _tasks) &&
-            const DeepCollectionEquality().equals(other.revision, revision));
+            const DeepCollectionEquality().equals(other._tasks, _tasks));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(visibility),
-      const DeepCollectionEquality().hash(_tasks),
-      const DeepCollectionEquality().hash(revision));
+      const DeepCollectionEquality().hash(_tasks));
 
   @JsonKey(ignore: true)
   @override
@@ -1631,33 +1610,29 @@ class _$LoadedTasksState
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) {
-    return loaded(visibility, tasks, revision);
+    return loaded(visibility, tasks);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) {
-    return loaded?.call(visibility, tasks, revision);
+    return loaded?.call(visibility, tasks);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(visibility, tasks, revision);
+      return loaded(visibility, tasks);
     }
     return orElse();
   }
@@ -1697,12 +1672,10 @@ class _$LoadedTasksState
 abstract class LoadedTasksState implements TasksState {
   const factory LoadedTasksState(
       {required final bool visibility,
-      required final List<TaskModel> tasks,
-      required final int revision}) = _$LoadedTasksState;
+      required final List<TaskModel> tasks}) = _$LoadedTasksState;
 
   bool get visibility;
   List<TaskModel> get tasks;
-  int get revision;
   @JsonKey(ignore: true)
   _$$LoadedTasksStateCopyWith<_$LoadedTasksState> get copyWith =>
       throw _privateConstructorUsedError;

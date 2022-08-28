@@ -1,20 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:done_yandex_app/src/data/enums/task_impotance_enum.dart';
-import 'package:done_yandex_app/src/data/models/app_requests.dart';
+import 'package:done_yandex_app/src/data/models/dto/create_task_dto.dart';
+import 'package:done_yandex_app/src/data/models/dto/edit_task_dto.dart';
 import 'package:done_yandex_app/src/data/models/task_model.dart';
-import 'package:done_yandex_app/src/data/sources/tasks_local_ds.dart';
-import 'package:done_yandex_app/src/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/src/data/sources/visibility_local_ds.dart';
+import 'package:done_yandex_app/src/domain/tasks_repository_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
-import 'package:uuid/uuid.dart';
 
 part 'tasks_bloc.freezed.dart';
 part 'tasks_event.dart';
@@ -22,102 +18,50 @@ part 'tasks_state.dart';
 
 @singleton
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  Future<String> get phoneTitle {
-    if (kIsWeb) return Future.value('Web');
-    final deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      return deviceInfo.androidInfo
-          .then((value) => value.model ?? "Unrecognized model");
-    }
-    if (Platform.isIOS) {
-      return deviceInfo.iosInfo
-          .then((value) => value.name ?? "Unrecognized model");
-    }
-    return Future.value("Unrecognized model");
+  Future<void> _updatingData(TasksEvent event, Emitter<TasksState> emit) async {
+    await repos.updateTasks();
+    await _loadingData(event, emit);
   }
 
-  Future<void> loadingData(TasksEvent event, Emitter<TasksState> emit) async {
+  Future<void> _loadingData(TasksEvent event, Emitter<TasksState> emit) async {
+    final tasks = await repos.getTasks();
     emit(
       LoadedTasksState(
         visibility: visibilityDs.getVisibility(),
-        tasks: await localDs.getList(),
-        revision: localDs.getRevision(),
+        tasks: tasks,
       ),
     );
-    Logger.root.info('Downloaded tasks from the cache');
-    final remoteRes = await remoteDs.getList();
-    await localDs.saveRevision(remoteRes.revision);
-    emit(
-      LoadedTasksState(
-        visibility: visibilityDs.getVisibility(),
-        tasks: remoteRes.list,
-        revision: remoteRes.revision,
-      ),
-    );
-    Logger.root.info('Downloaded tasks from the network');
-    await localDs.saveList(remoteRes.list);
-    Logger.root.info('Tasks are saved to the phone');
   }
 
-  void addTask(AddTaskEvent event, Emitter<TasksState> emit) async {
-    if (state is! LoadedTasksState) return;
-    final LoadedTasksState loadedState = state as LoadedTasksState;
-    final TaskModel newTask = TaskModel(
-      id: const Uuid().v4().toString(),
-      text: event.text,
-      importance: event.importance,
+  void _addTask(AddTaskEvent event, Emitter<TasksState> emit) async {
+    await repos.createTask(
+      CreateTaskDTO(
+        text: event.text,
+        deadline: event.deadline,
+        done: event.done,
+        importance: event.importance,
+      ),
+    );
+    await _loadingData(event, emit);
+  }
+
+  void _editTask(EditTaskEvent event, Emitter<TasksState> emit) async {
+    await repos.editTask(EditTaskDTO(
+      id: event.id,
       deadline: event.deadline,
       done: event.done,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: await phoneTitle,
-    );
-    await localDs.saveTask(newTask);
-    await remoteDs.createTask(
-        lastRevision: loadedState.revision,
-        element: TaskAppRequest(element: newTask));
-    Logger.root.info('Add task ${newTask.id}');
-    await loadingData(event, emit);
+      importance: event.importance,
+      text: event.text,
+    ));
+    await _loadingData(event, emit);
   }
 
-  void editTask(EditTaskEvent event, Emitter<TasksState> emit) async {
-    if (state is! LoadedTasksState) return;
-    final LoadedTasksState loadedState = state as LoadedTasksState;
-    final TaskModel oldTask =
-        loadedState.tasks.firstWhere((element) => event.id == element.id);
-    final TaskModel newTask = oldTask.copyWith(
-      done: event.done ?? oldTask.done,
-      deadline: event.deadline ?? oldTask.deadline,
-      importance: event.importance ?? oldTask.importance,
-      lastUpdatedBy: await phoneTitle,
-      text: event.text ?? oldTask.text,
-      changedAt: DateTime.now(),
-    );
-    await localDs.saveTask(newTask);
-    await remoteDs.editTask(
-      id: oldTask.id,
-      lastRevision: loadedState.revision,
-      task: TaskAppRequest(element: newTask),
-    );
-    Logger.root.info("Edit task ${newTask.id}");
-    await loadingData(event, emit);
+  void _deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) async {
+    await repos.deleteTask(event.id);
+    await _loadingData(event, emit);
   }
 
-  void deleteTask(DeleteTaskEvent event, Emitter<TasksState> emit) async {
-    if (state is! LoadedTasksState) return;
-    final LoadedTasksState loadedState = state as LoadedTasksState;
-    final TaskModel task =
-        loadedState.tasks.firstWhere((element) => event.id == element.id);
-    await localDs.deleteTask(task.id);
-    await remoteDs.deleteTask(
-      id: task.id,
-      lastRevision: loadedState.revision,
-    );
-    Logger.root.info("Delete task ${task.id}");
-    await loadingData(event, emit);
-  }
-
-  Future<void> changeVisibility(
+  Future<void> _changeVisibility(
       TasksEvent event, Emitter<TasksState> emit) async {
     final bool newValue = !visibilityDs.getVisibility();
     await visibilityDs.saveVisibility(newValue);
@@ -128,19 +72,17 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   }
 
   TasksBloc(
-    this.remoteDs,
-    this.localDs,
+    this.repos,
     this.visibilityDs,
   ) : super(const InitialTasksState()) {
-    on<StartedEvent>(loadingData);
-    on<LoadingEvent>(loadingData);
-    on<AddTaskEvent>(addTask);
-    on<EditTaskEvent>(editTask);
-    on<DeleteTaskEvent>(deleteTask);
-    on<ChangeVisibilityEvent>(changeVisibility);
+    on<StartedEvent>(_updatingData);
+    on<LoadingEvent>(_loadingData);
+    on<AddTaskEvent>(_addTask);
+    on<EditTaskEvent>(_editTask);
+    on<DeleteTaskEvent>(_deleteTask);
+    on<ChangeVisibilityEvent>(_changeVisibility);
   }
 
-  final TasksRemoteDataSource remoteDs;
-  final TasksLocalDataSource localDs;
+  final TasksRepositoryInterface repos;
   final VisibilityLocalDataSource visibilityDs;
 }

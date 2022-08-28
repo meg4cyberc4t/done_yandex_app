@@ -2,9 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:done_yandex_app/src/data/models/app_requests.dart';
 import 'package:done_yandex_app/src/data/models/app_responses.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds_interface.dart';
-import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/enviroment/enviroment.dart';
-import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -25,9 +23,9 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
         )..interceptors.add(
             InterceptorsWrapper(
               onError: (error, handler) async {
-                if (error.response?.statusCode == 400) {
-                  getIt.tasksBloc.add(const LoadingEvent());
-                }
+                // if (error.response?.statusCode == 400) {
+                //   getIt.tasksBloc.add(const LoadingEvent());
+                // }
               },
             ),
           ),
@@ -88,7 +86,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
   @override
   Future<TaskAppResponse> getTask(String id) async {
     final res = await dio.get('/list/$id');
-    throw TaskAppResponse.fromJson(res.data);
+    return TaskAppResponse.fromJson(res.data);
   }
 
   @override
@@ -103,6 +101,6 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
       ),
       data: request.toJson()..remove('runtimeType'),
     );
-    throw ListTaskAppResponse.fromJson(res.data);
+    return ListTaskAppResponse.fromJson(res.data);
   }
 }

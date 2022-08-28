@@ -1,7 +1,7 @@
 import 'dart:convert';
+
 import 'package:done_yandex_app/src/data/models/task_model.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_local_ds_interface.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,58 +11,53 @@ class TasksLocalDataSource extends ITasksLocalDataSource {
   static Future<TasksLocalDataSource> initAsync() async {
     await Hive.initFlutter();
     final Box tasksData = await Hive.openBox("tasks_local_data_source");
-    return TasksLocalDataSource._(tasksData);
+    final Box revData = await Hive.openBox("revision");
+
+    return TasksLocalDataSource._(
+      tasksData,
+      revData,
+    );
   }
 
-  TasksLocalDataSource._(this.tasksData);
+  TasksLocalDataSource._(this.tasksData, this.revisionData);
 
   final Box tasksData;
+  final Box revisionData;
 
   String get listKey => 'list';
-  String taskKey(String id) => 'task_$id';
   String get lastRevisionKey => 'last_revision_key';
 
   @override
-  int getRevision() => tasksData.get(lastRevisionKey, defaultValue: 0);
+  int getRevision() => revisionData.get(lastRevisionKey, defaultValue: 0);
 
   @override
   Future<void> saveRevision(int revision) =>
-      tasksData.put(lastRevisionKey, revision);
+      revisionData.put(lastRevisionKey, revision);
 
   @override
-  Future<List<TaskModel>> getList() {
-    final String? data = tasksData.get(listKey);
-    if (data == null) return Future.value([]);
-    List<TaskModel> decode(String raw) {
-      List rawJ = jsonDecode(raw);
-      return rawJ.map((e) => TaskModel.fromJson(e)).toList();
-    }
-
-    if (data.length > 3000) {
-      return compute<String, List<TaskModel>>(decode, data);
-    }
-    return Future.value(decode(data));
+  Future<List<TaskModel>> getList() async {
+    return tasksData.values
+        .map((e) => TaskModel.fromJson(jsonDecode(e)))
+        .toList();
   }
 
   @override
-  Future<void> saveList(List<TaskModel> list) =>
-      tasksData.put(listKey, jsonEncode(list));
+  Future<void> saveList(List<TaskModel> list) => tasksData.putAll({
+        for (var item in list) item.id: jsonEncode(item),
+      });
 
   @override
-  Future<TaskModel?> getTask(String id) {
-    final String? data = tasksData.get(taskKey(id));
-    if (data == null) return Future.value(null);
-    TaskModel decode(String raw) => TaskModel.fromJson(jsonDecode(raw));
-    if (data.length > 3000) {
-      return compute<String, TaskModel>(decode, data);
-    }
-    return Future.value(decode(data));
+  Future<TaskModel?> getTask(String id) async {
+    final raw = tasksData.get(id);
+    if (raw == null) return null;
+    return TaskModel.fromJson(jsonDecode(raw));
   }
 
   @override
-  Future<void> saveTask(TaskModel request) =>
-      tasksData.put(taskKey(request.id), request.toJson().toString());
+  Future<void> saveTask(TaskModel request) {
+    return tasksData.put(request.id, jsonEncode(request));
+  }
 
   @override
-  Future<void> deleteTask(String id) => tasksData.delete(taskKey(id));
+  Future<void> deleteTask(String id) => tasksData.delete(id);
 }

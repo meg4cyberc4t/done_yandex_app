@@ -44,7 +44,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
 
   Future<void> loadTasks() async {
     Vibrate.feedback(FeedbackType.success);
-    getIt.tasksBloc.add(const LoadingEvent());
+    getIt.tasksBloc.add(const StartedEvent());
   }
 
   @override
