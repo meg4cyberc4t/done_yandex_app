@@ -34,11 +34,11 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
         duration: const Duration(milliseconds: 100),
-        padding: EdgeInsets.fromLTRB(
+        padding: const EdgeInsets.fromLTRB(
           16,
-          MediaQuery.of(context).padding.top,
-          24,
+          0,
           16,
+          8,
         ),
         alignment: Alignment.bottomLeft,
         child: Row(
@@ -52,14 +52,14 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
                 EdgeInsets.zero,
                 progress,
               )!,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Hero(
-                    tag: 'main_headline',
-                    child: Text(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
                       context.l10n.myTasks,
                       style: TextStyle.lerp(
                         Theme.of(context).textTheme.headline5,
@@ -67,34 +67,41 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
                         progress,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: (28 * (1 - progress)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 200),
-                        opacity: progress < 0.2 ? 1 : 0,
-                        child: Text(
-                          '${context.l10n.done} — $doneTasksCount',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(
-                                color: Theme.of(context).secondaryHeaderColor,
-                              ),
+                    SizedBox(
+                      height: (28 * (1 - progress)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 200),
+                          opacity: progress < 0.2 ? 1 : 0,
+                          child: Text(
+                            '${context.l10n.done} — $doneTasksCount',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                  color: Theme.of(context).secondaryHeaderColor,
+                                ),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-            GestureDetector(
-              onTap: changeVisibility,
-              child: Icon(
-                visibility ? Icons.visibility_off : Icons.visibility,
-                color: Theme.of(context).primaryColor,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: changeVisibility,
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    visibility ? Icons.visibility_off : Icons.visibility,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
               ),
             ),
           ],
@@ -104,10 +111,10 @@ class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 244;
+  double get maxExtent => 184;
 
   @override
-  double get minExtent => 100;
+  double get minExtent => 85;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

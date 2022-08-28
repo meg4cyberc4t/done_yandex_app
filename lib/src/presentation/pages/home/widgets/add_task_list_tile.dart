@@ -1,4 +1,4 @@
-import 'package:done_yandex_app/src/di/global_dependency.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/l10n/localization_extension.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +15,7 @@ class _AddTaskListTileState extends State<AddTaskListTile> {
 
   void addNewTask() {
     if (textEditingController.text.trim().isEmpty) return;
-    context.global.tasksBloc
-        .add(AddTaskEvent(text: textEditingController.text.trim()));
+    getIt.tasksBloc.add(AddTaskEvent(text: textEditingController.text.trim()));
     textEditingController.clear();
   }
 

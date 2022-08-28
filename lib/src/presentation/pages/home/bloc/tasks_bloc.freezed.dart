@@ -146,12 +146,18 @@ class __$$StartedEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$StartedEvent implements StartedEvent {
+class _$StartedEvent with DiagnosticableTreeMixin implements StartedEvent {
   const _$StartedEvent();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.started()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'TasksEvent.started'));
   }
 
   @override
@@ -304,12 +310,18 @@ class __$$LoadingEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingEvent implements LoadingEvent {
+class _$LoadingEvent with DiagnosticableTreeMixin implements LoadingEvent {
   const _$LoadingEvent();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'TasksEvent.loading'));
   }
 
   @override
@@ -491,7 +503,7 @@ class __$$AddTaskEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AddTaskEvent implements AddTaskEvent {
+class _$AddTaskEvent with DiagnosticableTreeMixin implements AddTaskEvent {
   const _$AddTaskEvent(
       {required this.text,
       this.importance = TaskImportance.basic,
@@ -510,8 +522,19 @@ class _$AddTaskEvent implements AddTaskEvent {
   final bool done;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.add(text: $text, importance: $importance, deadline: $deadline, done: $done)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TasksEvent.add'))
+      ..add(DiagnosticsProperty('text', text))
+      ..add(DiagnosticsProperty('importance', importance))
+      ..add(DiagnosticsProperty('deadline', deadline))
+      ..add(DiagnosticsProperty('done', done));
   }
 
   @override
@@ -742,7 +765,7 @@ class __$$EditTaskEventCopyWithImpl<$Res> extends _$TasksEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EditTaskEvent implements EditTaskEvent {
+class _$EditTaskEvent with DiagnosticableTreeMixin implements EditTaskEvent {
   const _$EditTaskEvent(
       {required this.id,
       this.text,
@@ -768,8 +791,22 @@ class _$EditTaskEvent implements EditTaskEvent {
   final DateTime? updatedAt;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.edit(id: $id, text: $text, importance: $importance, deadline: $deadline, done: $done, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TasksEvent.edit'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('text', text))
+      ..add(DiagnosticsProperty('importance', importance))
+      ..add(DiagnosticsProperty('deadline', deadline))
+      ..add(DiagnosticsProperty('done', done))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
 
   @override
@@ -977,15 +1014,25 @@ class __$$DeleteTaskEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DeleteTaskEvent implements DeleteTaskEvent {
+class _$DeleteTaskEvent
+    with DiagnosticableTreeMixin
+    implements DeleteTaskEvent {
   const _$DeleteTaskEvent({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.delete(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TasksEvent.delete'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -1152,12 +1199,20 @@ class __$$ChangeVisibilityEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChangeVisibilityEvent implements ChangeVisibilityEvent {
+class _$ChangeVisibilityEvent
+    with DiagnosticableTreeMixin
+    implements ChangeVisibilityEvent {
   const _$ChangeVisibilityEvent();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksEvent.changeVisibility()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'TasksEvent.changeVisibility'));
   }
 
   @override
@@ -1295,23 +1350,19 @@ mixin _$TasksState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1373,12 +1424,20 @@ class __$$InitialTasksStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialTasksState implements InitialTasksState {
+class _$InitialTasksState
+    with DiagnosticableTreeMixin
+    implements InitialTasksState {
   const _$InitialTasksState();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TasksState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'TasksState.initial'));
   }
 
   @override
@@ -1394,9 +1453,7 @@ class _$InitialTasksState implements InitialTasksState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) {
     return initial();
   }
@@ -1405,8 +1462,7 @@ class _$InitialTasksState implements InitialTasksState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) {
     return initial?.call();
   }
@@ -1415,8 +1471,7 @@ class _$InitialTasksState implements InitialTasksState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1466,7 +1521,7 @@ abstract class _$$LoadedTasksStateCopyWith<$Res> {
   factory _$$LoadedTasksStateCopyWith(
           _$LoadedTasksState value, $Res Function(_$LoadedTasksState) then) =
       __$$LoadedTasksStateCopyWithImpl<$Res>;
-  $Res call({bool visibility, List<TaskModel> tasks, int revision});
+  $Res call({bool visibility, List<TaskModel> tasks});
 }
 
 /// @nodoc
@@ -1484,7 +1539,6 @@ class __$$LoadedTasksStateCopyWithImpl<$Res>
   $Res call({
     Object? visibility = freezed,
     Object? tasks = freezed,
-    Object? revision = freezed,
   }) {
     return _then(_$LoadedTasksState(
       visibility: visibility == freezed
@@ -1495,21 +1549,17 @@ class __$$LoadedTasksStateCopyWithImpl<$Res>
           ? _value._tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<TaskModel>,
-      revision: revision == freezed
-          ? _value.revision
-          : revision // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
 
 /// @nodoc
 
-class _$LoadedTasksState implements LoadedTasksState {
+class _$LoadedTasksState
+    with DiagnosticableTreeMixin
+    implements LoadedTasksState {
   const _$LoadedTasksState(
-      {required this.visibility,
-      required final List<TaskModel> tasks,
-      required this.revision})
+      {required this.visibility, required final List<TaskModel> tasks})
       : _tasks = tasks;
 
   @override
@@ -1522,11 +1572,17 @@ class _$LoadedTasksState implements LoadedTasksState {
   }
 
   @override
-  final int revision;
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TasksState.loaded(visibility: $visibility, tasks: $tasks)';
+  }
 
   @override
-  String toString() {
-    return 'TasksState.loaded(visibility: $visibility, tasks: $tasks, revision: $revision)';
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TasksState.loaded'))
+      ..add(DiagnosticsProperty('visibility', visibility))
+      ..add(DiagnosticsProperty('tasks', tasks));
   }
 
   @override
@@ -1536,16 +1592,14 @@ class _$LoadedTasksState implements LoadedTasksState {
             other is _$LoadedTasksState &&
             const DeepCollectionEquality()
                 .equals(other.visibility, visibility) &&
-            const DeepCollectionEquality().equals(other._tasks, _tasks) &&
-            const DeepCollectionEquality().equals(other.revision, revision));
+            const DeepCollectionEquality().equals(other._tasks, _tasks));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(visibility),
-      const DeepCollectionEquality().hash(_tasks),
-      const DeepCollectionEquality().hash(revision));
+      const DeepCollectionEquality().hash(_tasks));
 
   @JsonKey(ignore: true)
   @override
@@ -1556,33 +1610,29 @@ class _$LoadedTasksState implements LoadedTasksState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(
-            bool visibility, List<TaskModel> tasks, int revision)
-        loaded,
+    required TResult Function(bool visibility, List<TaskModel> tasks) loaded,
   }) {
-    return loaded(visibility, tasks, revision);
+    return loaded(visibility, tasks);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
   }) {
-    return loaded?.call(visibility, tasks, revision);
+    return loaded?.call(visibility, tasks);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(bool visibility, List<TaskModel> tasks, int revision)?
-        loaded,
+    TResult Function(bool visibility, List<TaskModel> tasks)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(visibility, tasks, revision);
+      return loaded(visibility, tasks);
     }
     return orElse();
   }
@@ -1622,12 +1672,10 @@ class _$LoadedTasksState implements LoadedTasksState {
 abstract class LoadedTasksState implements TasksState {
   const factory LoadedTasksState(
       {required final bool visibility,
-      required final List<TaskModel> tasks,
-      required final int revision}) = _$LoadedTasksState;
+      required final List<TaskModel> tasks}) = _$LoadedTasksState;
 
   bool get visibility;
   List<TaskModel> get tasks;
-  int get revision;
   @JsonKey(ignore: true)
   _$$LoadedTasksStateCopyWith<_$LoadedTasksState> get copyWith =>
       throw _privateConstructorUsedError;

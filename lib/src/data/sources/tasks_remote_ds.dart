@@ -2,10 +2,38 @@ import 'package:dio/dio.dart';
 import 'package:done_yandex_app/src/data/models/app_requests.dart';
 import 'package:done_yandex_app/src/data/models/app_responses.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds_interface.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
+import 'package:done_yandex_app/src/enviroment/enviroment.dart';
+import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TasksRemoteDataSource extends ITasksRemoteDataSource {
-  TasksRemoteDataSource(this.dio);
+  TasksRemoteDataSource._(this.dio);
+  @factoryMethod
+  factory TasksRemoteDataSource.fromEnv(AppEnviroment env) =>
+      TasksRemoteDataSource._(
+        Dio(
+          BaseOptions(
+            baseUrl: env.url,
+            headers: {
+              'Accept': "application/json",
+              'Content-type': "application/json",
+              'Authorization': "Bearer ${env.token}",
+            },
+          ),
+        )..interceptors.add(
+            InterceptorsWrapper(
+              onError: (error, handler) async {
+                if (error.response?.statusCode == 400) {
+                  getIt.tasksBloc.add(const LoadingEvent());
+                }
+              },
+            ),
+          ),
+      );
   final Dio dio;
+  final keyLastRevision = "X-Last-Known-Revision";
 
   @override
   Future<TaskAppResponse> createTask({
@@ -16,7 +44,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
       '/list/',
       data: element.toJson()..remove('runtimeType'),
       options: Options(
-        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+        headers: {keyLastRevision: lastRevision.toString()},
       ),
     );
     return TaskAppResponse.fromJson(res.data);
@@ -30,7 +58,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
     final res = await dio.delete(
       '/list/$id',
       options: Options(
-        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+        headers: {keyLastRevision: lastRevision.toString()},
       ),
     );
     return TaskAppResponse.fromJson(res.data);
@@ -46,7 +74,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
       '/list/$id',
       data: task.toJson()..remove('runtimeType'),
       options: Options(
-        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+        headers: {keyLastRevision: lastRevision.toString()},
       ),
     );
     return TaskAppResponse.fromJson(res.data);
@@ -61,7 +89,7 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
   @override
   Future<TaskAppResponse> getTask(String id) async {
     final res = await dio.get('/list/$id');
-    throw TaskAppResponse.fromJson(res.data);
+    return TaskAppResponse.fromJson(res.data);
   }
 
   @override
@@ -72,10 +100,10 @@ class TasksRemoteDataSource extends ITasksRemoteDataSource {
     final res = await dio.patch(
       '/list',
       options: Options(
-        headers: {"X-Last-Known-Revision": lastRevision.toString()},
+        headers: {keyLastRevision: lastRevision.toString()},
       ),
       data: request.toJson()..remove('runtimeType'),
     );
-    throw ListTaskAppResponse.fromJson(res.data);
+    return ListTaskAppResponse.fromJson(res.data);
   }
 }

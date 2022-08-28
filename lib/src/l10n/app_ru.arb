@@ -11,5 +11,6 @@
     "importanceImportant": "Высокий",
     "deadline": "Сделать до",
     "delete": "Удалить",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "notFound": "Не найдено"
 }

@@ -32,6 +32,7 @@ mixin _$FigmaAppTheme {
   Color get backPrimary => throw _privateConstructorUsedError;
   Color get backSecondary => throw _privateConstructorUsedError;
   Color get backElevated => throw _privateConstructorUsedError;
+  Brightness get brightness => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FigmaAppThemeCopyWith<FigmaAppTheme> get copyWith =>
@@ -59,7 +60,8 @@ abstract class $FigmaAppThemeCopyWith<$Res> {
       Color white,
       Color backPrimary,
       Color backSecondary,
-      Color backElevated});
+      Color backElevated,
+      Brightness brightness});
 }
 
 /// @nodoc
@@ -89,6 +91,7 @@ class _$FigmaAppThemeCopyWithImpl<$Res>
     Object? backPrimary = freezed,
     Object? backSecondary = freezed,
     Object? backElevated = freezed,
+    Object? brightness = freezed,
   }) {
     return _then(_value.copyWith(
       separator: separator == freezed
@@ -155,6 +158,10 @@ class _$FigmaAppThemeCopyWithImpl<$Res>
           ? _value.backElevated
           : backElevated // ignore: cast_nullable_to_non_nullable
               as Color,
+      brightness: brightness == freezed
+          ? _value.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as Brightness,
     ));
   }
 }
@@ -182,7 +189,8 @@ abstract class _$$_FigmaAppThemeCopyWith<$Res>
       Color white,
       Color backPrimary,
       Color backSecondary,
-      Color backElevated});
+      Color backElevated,
+      Brightness brightness});
 }
 
 /// @nodoc
@@ -214,6 +222,7 @@ class __$$_FigmaAppThemeCopyWithImpl<$Res>
     Object? backPrimary = freezed,
     Object? backSecondary = freezed,
     Object? backElevated = freezed,
+    Object? brightness = freezed,
   }) {
     return _then(_$_FigmaAppTheme(
       separator: separator == freezed
@@ -280,6 +289,10 @@ class __$$_FigmaAppThemeCopyWithImpl<$Res>
           ? _value.backElevated
           : backElevated // ignore: cast_nullable_to_non_nullable
               as Color,
+      brightness: brightness == freezed
+          ? _value.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as Brightness,
     ));
   }
 }
@@ -303,7 +316,8 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
       required this.white,
       required this.backPrimary,
       required this.backSecondary,
-      required this.backElevated});
+      required this.backElevated,
+      required this.brightness});
 
   @override
   final Color separator;
@@ -337,10 +351,12 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
   final Color backSecondary;
   @override
   final Color backElevated;
+  @override
+  final Brightness brightness;
 
   @override
   String toString() {
-    return 'FigmaAppTheme(separator: $separator, overlay: $overlay, labelPrimary: $labelPrimary, labelSecondary: $labelSecondary, labelTertiary: $labelTertiary, labelDisable: $labelDisable, red: $red, redImportance: $redImportance, green: $green, blue: $blue, gray: $gray, grayLight: $grayLight, white: $white, backPrimary: $backPrimary, backSecondary: $backSecondary, backElevated: $backElevated)';
+    return 'FigmaAppTheme(separator: $separator, overlay: $overlay, labelPrimary: $labelPrimary, labelSecondary: $labelSecondary, labelTertiary: $labelTertiary, labelDisable: $labelDisable, red: $red, redImportance: $redImportance, green: $green, blue: $blue, gray: $gray, grayLight: $grayLight, white: $white, backPrimary: $backPrimary, backSecondary: $backSecondary, backElevated: $backElevated, brightness: $brightness)';
   }
 
   @override
@@ -371,7 +387,9 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
             const DeepCollectionEquality()
                 .equals(other.backSecondary, backSecondary) &&
             const DeepCollectionEquality()
-                .equals(other.backElevated, backElevated));
+                .equals(other.backElevated, backElevated) &&
+            const DeepCollectionEquality()
+                .equals(other.brightness, brightness));
   }
 
   @override
@@ -392,7 +410,8 @@ class _$_FigmaAppTheme implements _FigmaAppTheme {
       const DeepCollectionEquality().hash(white),
       const DeepCollectionEquality().hash(backPrimary),
       const DeepCollectionEquality().hash(backSecondary),
-      const DeepCollectionEquality().hash(backElevated));
+      const DeepCollectionEquality().hash(backElevated),
+      const DeepCollectionEquality().hash(brightness));
 
   @JsonKey(ignore: true)
   @override
@@ -417,7 +436,8 @@ abstract class _FigmaAppTheme implements FigmaAppTheme {
       required final Color white,
       required final Color backPrimary,
       required final Color backSecondary,
-      required final Color backElevated}) = _$_FigmaAppTheme;
+      required final Color backElevated,
+      required final Brightness brightness}) = _$_FigmaAppTheme;
 
   @override
   Color get separator;
@@ -451,6 +471,8 @@ abstract class _FigmaAppTheme implements FigmaAppTheme {
   Color get backSecondary;
   @override
   Color get backElevated;
+  @override
+  Brightness get brightness;
   @override
   @JsonKey(ignore: true)
   _$$_FigmaAppThemeCopyWith<_$_FigmaAppTheme> get copyWith =>

@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '737244801942',
     projectId: 'done-6eb63',
     storageBucket: 'done-6eb63.appspot.com',
-    iosClientId: '737244801942-2t8og29cbvpah5j1re8h5mbcba491ob1.apps.googleusercontent.com',
+    iosClientId:
+        '737244801942-2t8og29cbvpah5j1re8h5mbcba491ob1.apps.googleusercontent.com',
     iosBundleId: 'com.example.doneYandexApp',
   );
 }
