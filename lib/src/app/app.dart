@@ -5,7 +5,6 @@ import 'package:done_yandex_app/src/navigation/delegate.dart';
 import 'package:done_yandex_app/src/navigation/parser.dart';
 import 'package:done_yandex_app/src/navigation/provider.dart';
 import 'package:done_yandex_app/src/presentation/theme/app_theme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +34,7 @@ class App extends StatelessWidget {
         themeMode: ThemeMode.system,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: kDebugMode,
+        debugShowCheckedModeBanner: false,
         onGenerateTitle: (context) => context.l10n.title,
       ),
     );

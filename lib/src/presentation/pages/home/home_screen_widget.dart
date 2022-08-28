@@ -9,6 +9,7 @@ import 'package:done_yandex_app/src/presentation/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -49,82 +50,87 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: addNewTask,
-        child: const Icon(Icons.add),
-      ),
-      body: BlocBuilder<TasksBloc, TasksState>(
-        bloc: getIt.tasksBloc,
-        builder: (BuildContext context, TasksState state) {
-          return CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverPersistentHeader(
-                delegate: HomeAppBarDelegate(
-                  changeVisibility: changeVisibility,
-                  doneTasksCount: (state is LoadedTasksState)
-                      ? state.tasks.where((element) => element.done).length
-                      : 0,
-                  visibility:
-                      (state is LoadedTasksState) ? state.visibility : true,
+    return FlavorBanner(
+      color: Theme.of(context).primaryColor,
+      location: BannerLocation.topEnd,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: addNewTask,
+          child: const Icon(Icons.add),
+        ),
+        body: BlocBuilder<TasksBloc, TasksState>(
+          bloc: getIt.tasksBloc,
+          builder: (BuildContext context, TasksState state) {
+            return CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: HomeAppBarDelegate(
+                    changeVisibility: changeVisibility,
+                    doneTasksCount: (state is LoadedTasksState)
+                        ? state.tasks.where((element) => element.done).length
+                        : 0,
+                    visibility:
+                        (state is LoadedTasksState) ? state.visibility : true,
+                  ),
+                  floating: true,
+                  pinned: true,
                 ),
-                floating: true,
-                pinned: true,
-              ),
-              CupertinoSliverRefreshControl(
-                onRefresh: loadTasks,
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                sliver: SliverStack(
-                  insetOnOverlap: false,
-                  children: [
-                    SliverPositioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: context.figma.backSecondary,
-                          borderRadius: BorderRadius.circular(8),
+                CupertinoSliverRefreshControl(
+                  onRefresh: loadTasks,
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  sliver: SliverStack(
+                    insetOnOverlap: false,
+                    children: [
+                      SliverPositioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: context.figma.backSecondary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      sliver: MultiSliver(
-                        children: [
-                          if (state is LoadedTasksState)
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: state.tasks.length,
-                                (context, index) => TaskListTile(
-                                  visibilityDone: state.visibility,
-                                  task: state.tasks[index],
-                                  onDelete: () =>
-                                      deleteTask(state.tasks[index].id),
-                                  onDone: () => doneTask(
-                                    state.tasks[index].id,
-                                    state.tasks[index].done,
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        sliver: MultiSliver(
+                          children: [
+                            if (state is LoadedTasksState)
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  childCount: state.tasks.length,
+                                  (context, index) => TaskListTile(
+                                    visibilityDone: state.visibility,
+                                    task: state.tasks[index],
+                                    onDelete: () =>
+                                        deleteTask(state.tasks[index].id),
+                                    onDone: () => doneTask(
+                                      state.tasks[index].id,
+                                      state.tasks[index].done,
+                                    ),
+                                    onPressed: () =>
+                                        openTask(state.tasks[index]),
                                   ),
-                                  onPressed: () => openTask(state.tasks[index]),
                                 ),
                               ),
-                            ),
-                          const SliverToBoxAdapter(
-                            child: AddTaskListTile(),
-                          )
-                        ],
+                            const SliverToBoxAdapter(
+                              child: AddTaskListTile(),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child:
-                    SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
-              )
-            ],
-          );
-        },
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: MediaQuery.of(context).padding.bottom + 8),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
