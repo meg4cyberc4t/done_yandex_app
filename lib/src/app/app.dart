@@ -1,6 +1,7 @@
 import 'package:done_yandex_app/src/data/sources/remote_config_ds.dart';
 import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/l10n/localization_extension.dart';
+import 'package:done_yandex_app/src/navigation/app_scaffold_messenger.dart';
 import 'package:done_yandex_app/src/navigation/delegate.dart';
 import 'package:done_yandex_app/src/navigation/parser.dart';
 import 'package:done_yandex_app/src/navigation/provider.dart';
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
     return Provider.value(
       value: routeObserver,
       child: MaterialApp.router(
+        scaffoldMessengerKey: getIt.get<AppScaffoldMessenger>().key,
         routerDelegate: AppRouterDelegate(),
         routeInformationParser: AppRouteInformationParser(),
         routeInformationProvider: DebugRouteInformationProvider(),

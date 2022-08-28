@@ -11,5 +11,7 @@
     "importanceImportant": "Important",
     "deadline": "Deadline",
     "delete": "Delete",
-    "save": "Save"
+    "save": "Save",
+    "notFound": "Not found"
+
 }
