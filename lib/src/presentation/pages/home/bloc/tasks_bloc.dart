@@ -9,6 +9,7 @@ import 'package:done_yandex_app/src/data/models/task_model.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_local_ds.dart';
 import 'package:done_yandex_app/src/data/sources/tasks_remote_ds.dart';
 import 'package:done_yandex_app/src/data/sources/visibility_local_ds.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -22,6 +23,7 @@ part 'tasks_state.dart';
 @singleton
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   Future<String> get phoneTitle {
+    if (kIsWeb) return Future.value('Web');
     final deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       return deviceInfo.androidInfo

@@ -27,5 +27,6 @@ class FigmaAppTheme with _$FigmaAppTheme {
     required Color backPrimary,
     required Color backSecondary,
     required Color backElevated,
+    required Brightness brightness,
   }) = _FigmaAppTheme;
 }

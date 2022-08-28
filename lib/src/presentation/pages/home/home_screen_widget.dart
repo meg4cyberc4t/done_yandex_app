@@ -1,6 +1,6 @@
 import 'package:done_yandex_app/src/data/models/task_model.dart';
 import 'package:done_yandex_app/src/di/get_it_instance.dart';
-import 'package:done_yandex_app/src/navigation/routes.dart';
+import 'package:done_yandex_app/src/navigation/delegate.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/bloc/tasks_bloc.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/add_task_list_tile.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/home_app_bar.dart';
@@ -25,7 +25,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     getIt.tasksBloc.add(const StartedEvent());
   }
 
-  void addNewTask() => getIt.navigation.navigateTo(NavigationRoutes.task);
+  void addNewTask() => context.router.gotoNewTask();
 
   void changeVisibility() {
     Vibrate.feedback(FeedbackType.success);
@@ -39,8 +39,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     getIt.tasksBloc.add(EditTaskEvent(id: id, done: !oldValue));
   }
 
-  void openTask(TaskModel model) =>
-      getIt.navigation.navigateTo(NavigationRoutes.task, arguments: model);
+  void openTask(TaskModel model) => context.router.gotoTask(model.id);
 
   @override
   Widget build(BuildContext context) {
