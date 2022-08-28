@@ -13,22 +13,25 @@ class AppRouteInformationParser
       return Future.value(NavigationState(null, false));
     }
     switch (uri.pathSegments[0]) {
+      case Paths.addTask:
+        return Future.value(NavigationState.addTask());
       case Paths.tasks:
-        return Future.value(NavigationState(null));
-      case Paths.task:
-        return Future.value(NavigationState(uri.pathSegments[1]));
+        return Future.value(NavigationState.tasks());
       default:
-        return Future.value(NavigationState(null));
+        final String id = uri.pathSegments[1];
+        return Future.value(NavigationState.task(id));
     }
   }
 
   @override
   RouteInformation? restoreRouteInformation(NavigationState configuration) {
+    if (configuration.newTask) {
+      return const RouteInformation(location: Paths.addTask);
+    }
     if (configuration.taskId == null) {
       return const RouteInformation(location: Paths.tasks);
     } else {
-      return RouteInformation(
-          location: "/${Paths.task}/${configuration.taskId}");
+      return RouteInformation(location: Paths.taskPath(configuration.taskId!));
     }
   }
 }

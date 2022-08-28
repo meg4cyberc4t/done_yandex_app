@@ -52,7 +52,7 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
   }
 
   @override
-  GlobalKey<NavigatorState>? get navigatorKey => GlobalKey();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Future<void> setNewRoutePath(NavigationState configuration) {
