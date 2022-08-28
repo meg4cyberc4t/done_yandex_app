@@ -19,7 +19,7 @@ part 'tasks_state.dart';
 @singleton
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   Future<void> _updatingData(TasksEvent event, Emitter<TasksState> emit) async {
-    await repos.updateTasks();
+    repos.updateTasks();
     await _loadingData(event, emit);
   }
 
