@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeScreenWidget extends StatefulWidget {
   const HomeScreenWidget({Key? key}) : super(key: key);
@@ -27,7 +28,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     getIt.tasksBloc.add(const StartedEvent());
   }
 
-  void addNewTask() => context.router.gotoNewTask();
+  void addNewTask() => launchUrlString("com.example.done_yandex_app");
+
+  // void addNewTask() => context.router.gotoNewTask();
 
   void changeVisibility() {
     Vibrate.feedback(FeedbackType.success);

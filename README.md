@@ -26,3 +26,9 @@
 
 ### Для установки:
 https://github.com/meg4cyberc4t/done_yandex_app/releases/tag/f1
+
+
+### Для теста диплинков:
+```
+adb shell am start -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d done_yandex_app://example/tasks/1
+```

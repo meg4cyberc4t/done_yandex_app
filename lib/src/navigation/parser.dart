@@ -7,19 +7,14 @@ class AppRouteInformationParser
     extends RouteInformationParser<NavigationState> {
   @override
   Future<NavigationState> parseRouteInformation(
-      RouteInformation routeInformation) {
+      RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location ?? '');
-    if (uri.pathSegments.isEmpty) {
-      return Future.value(NavigationState(null, false));
-    }
-    switch (uri.pathSegments[0]) {
-      case Paths.addTask:
-        return Future.value(NavigationState.addTask());
-      case Paths.tasks:
-        return Future.value(NavigationState.tasks());
-      default:
-        final String id = uri.pathSegments[1];
-        return Future.value(NavigationState.task(id));
+    if (routeInformation.location == Paths.addTask) {
+      return NavigationState.addTask();
+    } else if (uri.pathSegments.length > 1) {
+      return NavigationState.task(uri.pathSegments[1]);
+    } else {
+      return NavigationState.tasks();
     }
   }
 
@@ -27,8 +22,7 @@ class AppRouteInformationParser
   RouteInformation? restoreRouteInformation(NavigationState configuration) {
     if (configuration.newTask) {
       return const RouteInformation(location: Paths.addTask);
-    }
-    if (configuration.taskId == null) {
+    } else if (configuration.taskId == null) {
       return const RouteInformation(location: Paths.tasks);
     } else {
       return RouteInformation(location: Paths.taskPath(configuration.taskId!));

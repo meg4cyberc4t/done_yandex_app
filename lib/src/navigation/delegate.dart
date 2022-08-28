@@ -8,8 +8,8 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NavigationState> {
   NavigationState state = NavigationState(null, false);
 
-  bool get isTaskPage => state.taskId != null;
-  bool get isNewTaskPage => state.newTask;
+  bool get isTaskPage => state.taskId != null && !state.newTask;
+  bool get isNewTaskPage => state.taskId == null && state.newTask;
 
   void gotoTasksList() {
     state.taskId = null;
