@@ -6,6 +6,7 @@ import 'package:done_yandex_app/src/presentation/pages/home/widgets/add_task_lis
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/home_app_bar.dart';
 import 'package:done_yandex_app/src/presentation/pages/home/widgets/task_list_tile/task_list_tile.dart';
 import 'package:done_yandex_app/src/presentation/theme/app_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
@@ -41,6 +42,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
 
   void openTask(TaskModel model) => context.router.gotoTask(model.id);
 
+  Future<void> loadTasks() async {
+    Vibrate.feedback(FeedbackType.success);
+    getIt.tasksBloc.add(const LoadingEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +58,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
         bloc: getIt.tasksBloc,
         builder: (BuildContext context, TasksState state) {
           return CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverPersistentHeader(
                 delegate: HomeAppBarDelegate(
@@ -64,6 +71,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                 ),
                 floating: true,
                 pinned: true,
+              ),
+              CupertinoSliverRefreshControl(
+                onRefresh: loadTasks,
               ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
