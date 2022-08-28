@@ -1,3 +1,5 @@
+import 'package:done_yandex_app/src/data/sources/remote_config_ds.dart';
+import 'package:done_yandex_app/src/di/get_it_instance.dart';
 import 'package:done_yandex_app/src/l10n/localization_extension.dart';
 import 'package:done_yandex_app/src/navigation/delegate.dart';
 import 'package:done_yandex_app/src/navigation/parser.dart';
@@ -14,32 +16,27 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routeObserver = RouteObserver();
-
     return Provider.value(
       value: routeObserver,
       child: MaterialApp.router(
         routerDelegate: AppRouterDelegate(),
         routeInformationParser: AppRouteInformationParser(),
         routeInformationProvider: DebugRouteInformationProvider(),
-        // initialRoute: NavigationRoutes.home,
-        theme: AppTheme.theme(AppTheme.lightFigma),
-        darkTheme: AppTheme.theme(AppTheme.darkFigma),
+        theme: AppTheme.theme(
+          AppTheme.lightFigma.copyWith(
+            redImportance: getIt.remoteConfigDs.colorRedImportance(context),
+          ),
+        ),
+        darkTheme: AppTheme.theme(
+          AppTheme.darkFigma.copyWith(
+            redImportance: getIt.remoteConfigDs.colorRedImportance(context),
+          ),
+        ),
         themeMode: ThemeMode.system,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: kDebugMode,
-        // home: const HomeScreenWidget(),
-        // home: Builder(builder: (context) {
-        //   return AppTheme(
-        //     figma: AppTheme.figmaOf(context).copyWith(
-        //         redImportance: getIt.remoteConfigDs.colorRedImportance(context)),
-        //     child: const HomeScreenWidget(),
-        //   );
-        // }),
         onGenerateTitle: (context) => context.l10n.title,
-
-        // navigatorKey: getIt.navigation.key,
-        // onGenerateRoute: NavigationRoutes.onGenerateRoute,
       ),
     );
   }
