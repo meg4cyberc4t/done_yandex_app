@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:done_yandex_app/src/data/models/app_requests.dart';
+import 'package:done_yandex_app/src/data/models/app_responses.dart';
 import 'package:done_yandex_app/src/data/models/dto/create_task_dto.dart';
 import 'package:done_yandex_app/src/data/models/dto/edit_task_dto.dart';
 import 'package:done_yandex_app/src/data/models/task_model.dart';
@@ -124,13 +125,19 @@ class TasksRepository extends TasksRepositoryInterface {
 
   @override
   Future<void> updateTasks() async {
-    final List<TaskModel> tasks = await getTasks();
-    final res = await remoteDs.patchList(
-      lastRevision: localDs.getRevision(),
-      request: ListTaskAppRequest(list: tasks),
-    );
-    await localDs.saveList(res.list);
-    await localDs.saveRevision(res.revision);
+    final ListTaskAppResponse remoteList = await remoteDs.getList();
+    if (remoteList.revision > localDs.getRevision()) {
+      await localDs.saveList(remoteList.list);
+      await localDs.saveRevision(remoteList.revision);
+    } else {
+      final List<TaskModel> tasks = await localDs.getList();
+      final res = await remoteDs.patchList(
+        lastRevision: localDs.getRevision(),
+        request: ListTaskAppRequest(list: tasks),
+      );
+      await localDs.saveList(res.list);
+      await localDs.saveRevision(res.revision);
+    }
     Logger.root.info("Update tasks from network");
   }
 }
