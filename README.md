@@ -44,7 +44,7 @@
 - Публикация приложения через CD.
 
 ### Для установки:
-https://github.com/meg4cyberc4t/done_yandex_app/releases/tag/f1
+https://github.com/meg4cyberc4t/done_yandex_app/releases/tag/f2
 
 
 ### Для теста диплинков:
