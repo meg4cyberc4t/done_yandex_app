@@ -35,6 +35,10 @@ class RemoteConfigDataSource {
 }
 
 extension ColorConfigExtension on RemoteConfigDataSource {
-  Color colorRedImportance(BuildContext context) =>
-      redImportance ? context.figma.red : const Color(0xFF793cd8);
+  Color colorRedImportance(BuildContext context) => redImportance
+      ? (Theme.of(context).brightness == Brightness.light
+              ? AppTheme.lightFigma
+              : AppTheme.darkFigma)
+          .redImportance
+      : const Color(0xFF793cd8);
 }
